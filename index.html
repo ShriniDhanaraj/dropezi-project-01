@@ -144,10 +144,27 @@ footer{background:#0f172a;color:rgba(255,255,255,.75);padding:36px 5%;text-align
 .footer-copy{font-size:.72rem;color:rgba(255,255,255,.33);margin-top:10px;font-family:'Inter',sans-serif;}
 footer a{color:#fdba74;text-decoration:none;}
 
+/* ── CARD HEADING (above white card, on hero gradient) ── */
+.card-heading-hero{display:flex;align-items:center;gap:12px;max-width:480px;margin:0 auto 10px;text-align:left;}
+.card-icon-hero{width:52px;height:52px;background:rgba(255,255,255,.18);border:1.5px solid rgba(255,255,255,.35);border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;backdrop-filter:blur(6px);overflow:hidden;padding:4px;}
+.card-icon-hero img{width:100%;height:100%;object-fit:contain;display:block;}
+.card-title-hero{font-size:1.12rem;font-weight:800;color:#fff;line-height:1.2;margin-bottom:2px;}
+.card-sub-hero{font-size:.8rem;color:rgba(255,255,255,.78);line-height:1.4;}
+
+/* ── WA TIP HERO (above white card) ── */
+.wa-tip-hero{max-width:480px;margin:0 auto 12px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);border-radius:10px;padding:9px 13px;font-size:.77rem;color:rgba(255,255,255,.93);display:flex;align-items:flex-start;gap:8px;backdrop-filter:blur(6px);}
+.wa-tip-hero a{color:#a7f3d0;font-weight:700;text-decoration:underline;cursor:pointer;}
+
 /* ── FLOATING WA BUTTON ── */
 .float-wa{position:fixed;bottom:22px;right:22px;background:var(--wa-green);color:white;border:none;border-radius:50px;padding:13px 20px;font-size:.87rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 4px 22px rgba(37,211,102,.45);z-index:200;transition:transform .2s;animation:pwa 3s ease-in-out infinite;}
 .float-wa:hover{transform:scale(1.05);animation:none;}
-@keyframes pwa{0%,100%{box-shadow:0 4px 22px rgba(37,211,102,.45)}50%{box-shadow:0 4px 38px rgba(37,211,102,.7)}}
+@keyframes pwa{
+  0%{box-shadow:0 4px 22px rgba(37,211,102,.45);transform:translateY(0);}
+  25%{transform:translateY(-6px);}
+  50%{box-shadow:0 4px 38px rgba(37,211,102,.7);transform:translateY(0);}
+  75%{transform:translateY(-4px);}
+  100%{box-shadow:0 4px 22px rgba(37,211,102,.45);transform:translateY(0);}
+}
 
 /* ── SUCCESS OVERLAY ── */
 .success-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:500;align-items:center;justify-content:center;padding:20px;}
@@ -216,13 +233,23 @@ footer a{color:#fdba74;text-decoration:none;}
     </div>
   </div>
 
+  <!-- BOOKING CARD HEADING (above card, on hero bg) -->
+  <div class="card-heading-hero">
+    <div class="card-icon-hero" aria-hidden="true"><img src="logo.webp" alt="DROPeZi" onerror="this.src='logo.jpg'" /></div>
+    <div>
+      <h2 class="card-title-hero" data-i18n="card_title">உடனடியாக பயணம் முன்பதிவு செய்யுங்கள்</h2>
+      <p class="card-sub-hero" data-i18n="card_sub">எங்கள் குழு WhatsApp-ல் நிமிடங்களில் பதில் அளிக்கும்</p>
+    </div>
+  </div>
+
+  <!-- WA TIP (hero area, above white card) -->
+  <div class="wa-tip-hero" role="note">
+    <span class="wa-tip-icon">💡</span>
+    <span data-i18n="wa_tip">மொபைலில் உள்ளீர்களா? <a onclick="openWADirect()" tabindex="0">இங்கே தட்டி நேரடியாக WhatsApp திறக்கலாம்</a> — Browser popup இல்லாமல்.</span>
+  </div>
+
   <!-- BOOKING CARD -->
   <div class="quote-card" role="main">
-    <div class="card-header">
-      <div class="card-icon" aria-hidden="true">🚕</div>
-      <h2 data-i18n="card_title">உடனடியாக பயணம் முன்பதிவு செய்யுங்கள்</h2>
-    </div>
-    <p class="subtitle" data-i18n="card_sub">எங்கள் குழு WhatsApp-ல் நிமிடங்களில் பதில் அளிக்கும்</p>
 
     <!-- TRIP TYPE TOGGLE -->
     <div class="trip-toggle" role="group" aria-label="Trip type">
@@ -255,12 +282,6 @@ footer a{color:#fdba74;text-decoration:none;}
         <label class="field-label" for="travel-time" data-i18n="label_time">நேரம்</label>
         <input type="time" id="travel-time" class="dt-input" aria-label="Travel time" />
       </div>
-    </div>
-
-    <!-- WA TIP: skip popup -->
-    <div class="wa-tip" role="note">
-      <span class="wa-tip-icon">💡</span>
-      <span data-i18n="wa_tip">மொபைலில் உள்ளீர்களா? <a onclick="openWADirect()" tabindex="0">இங்கே தட்டி நேரடியாக WhatsApp திறக்கலாம்</a> — Browser popup இல்லாமல்.</span>
     </div>
 
     <label class="field-label" for="phone-input" data-i18n="label_phone">உங்கள் WhatsApp எண்</label>
