@@ -151,13 +151,14 @@ footer a{color:#fdba74;text-decoration:none;}
 .card-title-hero{font-size:1.12rem;font-weight:800;color:#fff;line-height:1.2;margin-bottom:2px;}
 .card-sub-hero{font-size:.8rem;color:rgba(255,255,255,.78);line-height:1.4;}
 
-/* ── WA TIP HERO (above white card) ── */
-.wa-tip-hero{max-width:480px;margin:0 auto 12px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);border-radius:10px;padding:9px 13px;font-size:.77rem;color:rgba(255,255,255,.93);display:flex;align-items:flex-start;gap:8px;backdrop-filter:blur(6px);}
+/* ── WA TIP HERO + INLINE BOOK BUTTON ── */
+.wa-tip-hero{max-width:480px;margin:0 auto 12px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);border-radius:12px;padding:10px 10px 10px 14px;font-size:.77rem;color:rgba(255,255,255,.93);display:flex;align-items:center;gap:10px;backdrop-filter:blur(6px);}
+.wa-tip-left{display:flex;align-items:flex-start;gap:8px;flex:1;min-width:0;}
 .wa-tip-hero a{color:#a7f3d0;font-weight:700;text-decoration:underline;cursor:pointer;}
+.inline-wa-btn{background:var(--wa-green);color:white;border:none;border-radius:22px;padding:8px 14px;font-size:.75rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;white-space:nowrap;flex-shrink:0;box-shadow:0 3px 12px rgba(37,211,102,.4);animation:pwa 3s ease-in-out infinite;transition:background .2s,transform .15s;}
+.inline-wa-btn:hover{background:#1db954;transform:scale(1.05);animation:none;}
 
-/* ── FLOATING WA BUTTON ── */
-.float-wa{position:fixed;bottom:22px;right:22px;background:var(--wa-green);color:white;border:none;border-radius:50px;padding:13px 20px;font-size:.87rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 4px 22px rgba(37,211,102,.45);z-index:200;transition:transform .2s;animation:pwa 3s ease-in-out infinite;}
-.float-wa:hover{transform:scale(1.05);animation:none;}
+/* float-wa removed */
 @keyframes pwa{
   0%{box-shadow:0 4px 22px rgba(37,211,102,.45);transform:translateY(0);}
   25%{transform:translateY(-6px);}
@@ -188,6 +189,18 @@ footer a{color:#fdba74;text-decoration:none;}
 .date-time-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
 .dt-input{width:100%;border:2px solid var(--border);border-radius:var(--radius);padding:12px 14px;font-size:.93rem;font-family:'Inter',system-ui,sans-serif;color:var(--text);outline:none;transition:border-color .2s,box-shadow .2s;background:var(--white);}
 .dt-input:focus{border-color:var(--blue-mid);box-shadow:0 0 0 4px rgba(37,99,235,.1);}
+
+/* ── TAMIL LANGUAGE SCALING (Tamil glyphs are denser — scale down proportionally) ── */
+html[lang="ta"] .hero h1{font-size:clamp(1.45rem,4.2vw,2.3rem);}
+html[lang="ta"] .hero p.sub{font-size:.88rem;max-width:420px;}
+html[lang="ta"] .hero{padding-top:44px;padding-bottom:72px;}
+html[lang="ta"] .two-click-bar{padding:11px 16px;}
+html[lang="ta"] .tc-headline{font-size:.88rem;}
+html[lang="ta"] .tc-step{font-size:.72rem;padding:4px 10px;}
+html[lang="ta"] .card-title-hero{font-size:.98rem;}
+html[lang="ta"] .card-sub-hero{font-size:.76rem;}
+html[lang="ta"] .hero-badge{font-size:.74rem;padding:5px 14px;}
+html[lang="ta"] .wa-tip-hero{font-size:.73rem;}
 
 /* ── RESPONSIVE ── */
 @media(max-width:560px){
@@ -228,8 +241,8 @@ footer a{color:#fdba74;text-decoration:none;}
   <div class="two-click-bar" role="note" aria-label="Quick booking steps">
     <div class="tc-headline" data-i18n="tc_head">வெறும் <span>2 தகவல்கள்</span> — உங்கள் பயணம் ஆரம்பம் 🚕</div>
     <div class="tc-steps">
-      <div class="tc-step"><span class="tc-num">1</span><span data-i18n="tc1">📍 ஏறும் → இறங்கும் இடம் + தேதி &amp; நேரம்</span></div>
-      <div class="tc-step"><span class="tc-num">2</span><span data-i18n="tc2">🚗 வாகனம் தேர்வு செய்யுங்கள்</span></div>
+      <div class="tc-step"><span class="tc-num">1</span><span data-i18n="tc1">📍 ஏறும் → இறங்கும் + தேதி &amp; நேரம்</span></div>
+      <div class="tc-step"><span class="tc-num">2</span><span data-i18n="tc2">🚗 வாகனம் தேர்வு</span></div>
     </div>
   </div>
 
@@ -242,10 +255,16 @@ footer a{color:#fdba74;text-decoration:none;}
     </div>
   </div>
 
-  <!-- WA TIP (hero area, above white card) -->
+  <!-- WA TIP + INLINE BOOK BUTTON (hero area, above white card) -->
   <div class="wa-tip-hero" role="note">
-    <span class="wa-tip-icon">💡</span>
-    <span data-i18n="wa_tip">மொபைலில் உள்ளீர்களா? <a onclick="openWADirect()" tabindex="0">இங்கே தட்டி நேரடியாக WhatsApp திறக்கலாம்</a> — Browser popup இல்லாமல்.</span>
+    <div class="wa-tip-left">
+      <span class="wa-tip-icon">💡</span>
+      <span data-i18n="wa_tip">மொபைலில் உள்ளீர்களா? <a onclick="openWADirect()" tabindex="0">இங்கே தட்டி நேரடியாக WhatsApp திறக்கலாம்</a> — Browser popup இல்லாமல்.</span>
+    </div>
+    <button class="inline-wa-btn" onclick="openWADirect()" aria-label="Book ride on WhatsApp">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      <span data-i18n="float_btn">பயணம் முன்பதிவு</span>
+    </button>
   </div>
 
   <!-- BOOKING CARD -->
@@ -394,13 +413,7 @@ footer a{color:#fdba74;text-decoration:none;}
   <p class="footer-copy">© 2025 DROPeZi &nbsp;|&nbsp; <a href="https://dropezi.in">dropezi.in</a> &nbsp;|&nbsp; WhatsApp: <a href="https://wa.me/919361287432">+91 93612 87432</a></p>
 </footer>
 
-<!-- ═══ FLOATING WA BUTTON ═══ -->
-<button class="float-wa" onclick="openWADirect()" aria-label="Chat on WhatsApp now">
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="white" aria-hidden="true">
-    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-  </svg>
-  <span class="float-txt" data-i18n="float_btn">பயணம் முன்பதிவு</span>
-</button>
+<!-- floating WA button removed — merged into wa-tip-hero row -->
 
 <!-- ═══ SUCCESS OVERLAY (Fix A: uses location.href) ═══ -->
 <div class="success-overlay" id="success-overlay" role="dialog" aria-modal="true">
@@ -430,9 +443,9 @@ const T = {
   ta:{
     badge:"ஒரு திசை டிராப் & ரவுண்ட் டிரிப் — மறைமுக கட்டணம் இல்லை",
     hero_h1:"உங்கள் பயணம் தொடங்குகிறது", hero_span:"2 கிளிக்கில்.",
-    hero_p:"ஒரு திசை அல்லது ரவுண்ட் டிரிப் — வசதியான, வெளிப்படையான, சரியான நேரத்தில் தென் இந்தியா முழுவதும்.",
+    hero_p:"ஒரு திசை டிராப் அல்லது ரவுண்ட் டிரிப் — வசதியான, வெளிப்படையான, சரியான நேரத்தில்.",
     tc_head:'வெறும் <span>2 தகவல்கள்</span> — உங்கள் பயணம் ஆரம்பம் 🚕',
-    tc1:"📍 ஏறும் → இறங்கும் இடம் + தேதி & நேரம்", tc2:"🚗 வாகனம் தேர்வு செய்யுங்கள்",
+    tc1:"📍 ஏறும் → இறங்கும் + தேதி & நேரம்", tc2:"🚗 வாகனம் தேர்வு",
     card_title:"உடனடியாக பயணம் முன்பதிவு செய்யுங்கள்", card_sub:"எங்கள் குழு WhatsApp-ல் நிமிடங்களில் பதில் அளிக்கும்",
     trip_one:"ஒரு திசை", trip_round:"ரவுண்ட் டிரிப்",
     wa_tip:'மொபைலில் உள்ளீர்களா? <a onclick="openWADirect()" tabindex="0">இங்கே தட்டி நேரடியாக WhatsApp திறக்கலாம்</a> — Browser popup இல்லாமல்.',
