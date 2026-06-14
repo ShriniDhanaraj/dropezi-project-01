@@ -186,9 +186,14 @@ footer a{color:#fdba74;text-decoration:none;}
 .text-input-wrap:focus-within{border-color:var(--blue-mid);box-shadow:0 0 0 4px rgba(37,99,235,.1);}
 .text-input-wrap input{border:none;outline:none;padding:13px 14px;font-size:.97rem;width:100%;font-family:'Noto Sans Tamil','Inter',system-ui,sans-serif;color:var(--text);background:transparent;}
 .text-input-wrap input::placeholder{color:#c0c8d8;}
-.date-time-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.date-time-row{display:flex;align-items:flex-end;gap:18px;margin-bottom:14px;}
+.dt-field{flex:1;}
+.dt-field.time-field{flex:0 0 auto;}
 .dt-input{width:100%;border:2px solid var(--border);border-radius:var(--radius);padding:12px 14px;font-size:.93rem;font-family:'Inter',system-ui,sans-serif;color:var(--text);outline:none;transition:border-color .2s,box-shadow .2s;background:var(--white);}
 .dt-input:focus{border-color:var(--blue-mid);box-shadow:0 0 0 4px rgba(37,99,235,.1);}
+.time-select-wrap{display:flex;align-items:center;gap:3px;justify-content:flex-end;}
+.time-select-wrap .dt-select{width:52px;padding:11px 4px;font-size:.88rem;text-align:center;cursor:pointer;flex:0 0 auto;}
+.time-colon{font-size:1rem;font-weight:700;color:var(--text-muted);flex-shrink:0;}
 
 /* ── TAMIL LANGUAGE SCALING (Tamil glyphs are denser — scale down proportionally) ── */
 html[lang="ta"] .hero h1{font-size:clamp(1.45rem,4.2vw,2.3rem);}
@@ -297,9 +302,18 @@ html[lang="ta"] .wa-tip-hero{font-size:.73rem;}
         <label class="field-label" for="travel-date" data-i18n="label_date">தேதி</label>
         <input type="date" id="travel-date" class="dt-input" aria-label="Travel date" />
       </div>
-      <div class="dt-field">
-        <label class="field-label" for="travel-time" data-i18n="label_time">நேரம்</label>
-        <input type="time" id="travel-time" class="dt-input" aria-label="Travel time" />
+      <div class="dt-field time-field">
+        <label class="field-label" for="travel-time-h" data-i18n="label_time">நேரம்</label>
+        <div class="time-select-wrap">
+          <select id="travel-time-h" class="dt-input dt-select" aria-label="Travel hour"></select>
+          <span class="time-colon">:</span>
+          <select id="travel-time-m" class="dt-input dt-select" aria-label="Travel minute">
+            <option value="00">00</option>
+            <option value="15">15</option>
+            <option value="30">30</option>
+            <option value="45">45</option>
+          </select>
+        </div>
       </div>
     </div>
 
@@ -714,7 +728,7 @@ function handleGetQuote() {
   const pickup     = document.getElementById('pickup-input').value.trim();
   const drop       = document.getElementById('drop-input').value.trim();
   const travelDate = document.getElementById('travel-date').value;
-  const travelTime = document.getElementById('travel-time').value;
+  const travelTime = document.getElementById('travel-time-h').value + ':' + document.getElementById('travel-time-m').value;
 
   const fmt = '+91 ' + cleaned.replace(/(\d{5})(\d{5})/, '$1 $2');
   const t = T[lang];
@@ -769,8 +783,18 @@ setLang('ta');
   const today = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}`;
   document.getElementById('travel-date').value = today;
   document.getElementById('travel-date').min = today;
-  now.setMinutes(now.getMinutes() + 30);
-  document.getElementById('travel-time').value = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
+  // Populate hour select (00–23)
+  const hSel = document.getElementById('travel-time-h');
+  for (let h = 0; h < 24; h++) hSel.add(new Option(pad(h), pad(h)));
+
+  // Default time = current time rounded UP to nearest 15 min
+  const rawMin = now.getMinutes();
+  const roundedMin = Math.ceil(rawMin / 15) * 15;
+  let finalHour = now.getHours();
+  let finalMin  = roundedMin;
+  if (roundedMin >= 60) { finalMin = 0; finalHour = (finalHour + 1) % 24; }
+  hSel.value = pad(finalHour);
+  document.getElementById('travel-time-m').value = pad(finalMin);
 })();
 </script>
 </body>
