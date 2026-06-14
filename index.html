@@ -182,6 +182,17 @@ footer a{color:#fdba74;text-decoration:none;}
 .success-cancel{background:none;border:none;color:var(--text-muted);font-size:.8rem;cursor:pointer;margin-top:12px;text-decoration:underline;display:block;width:100%;padding:4px;}
 
 /* ── BOOKING FIELDS (pickup / drop / date / time) ── */
+.location-pair{display:grid;grid-template-columns:1fr 32px 1fr;gap:6px;align-items:start;margin-bottom:14px;}
+.loc-field{display:flex;flex-direction:column;}
+.loc-field .text-input-wrap{margin-bottom:0;}
+.swap-btn{margin-top:22px;background:var(--grad-soft);border:1.5px solid var(--border);border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;color:var(--text-muted);transition:all .18s;flex-shrink:0;font-family:inherit;}
+.swap-btn:hover{background:var(--blue-pale);border-color:var(--blue-mid);color:var(--blue);transform:rotate(180deg);}
+.prefs-details{margin-bottom:14px;}
+.prefs-summary{font-size:.73rem;font-weight:700;color:var(--text-muted);cursor:pointer;list-style:none;display:flex;align-items:center;gap:5px;padding:7px 10px;background:var(--grad-soft);border:1.5px dashed var(--border);border-radius:8px;margin-bottom:0;letter-spacing:.4px;text-transform:uppercase;}
+.prefs-summary::after{content:' ▾';font-size:.65rem;margin-left:auto;}
+.prefs-details[open] .prefs-summary::after{content:' ▴';}
+.prefs-summary::-webkit-details-marker{display:none;}
+.prefs-body{padding:12px 0 0;}
 .text-input-wrap{border:2px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:border-color .2s,box-shadow .2s;margin-bottom:14px;}
 .text-input-wrap:focus-within{border-color:var(--blue-mid);box-shadow:0 0 0 4px rgba(37,99,235,.1);}
 .text-input-wrap input{border:none;outline:none;padding:13px 14px;font-size:.97rem;width:100%;font-family:'Noto Sans Tamil','Inter',system-ui,sans-serif;color:var(--text);background:transparent;}
@@ -196,18 +207,13 @@ footer a{color:#fdba74;text-decoration:none;}
 .time-colon{font-size:1rem;font-weight:700;color:var(--text-muted);flex-shrink:0;}
 
 /* ── CHOOSE MODE (two big buttons, step 1) ── */
-.choose-mode-wrap{padding:6px 0 10px;}
-.choose-label{text-align:center;font-size:.82rem;color:var(--text-muted);font-weight:700;margin-bottom:16px;text-transform:uppercase;letter-spacing:.6px;}
-.choose-btns{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.choose-btn{background:var(--grad-soft);border:2px solid var(--border);border-radius:var(--radius);padding:20px 10px;cursor:pointer;text-align:center;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:6px;}
-.choose-btn:hover{border-color:var(--blue-mid);background:var(--blue-pale);transform:translateY(-2px);box-shadow:var(--shadow);}
-.choose-btn.human-btn:hover,.choose-btn.human-btn:focus{border-color:var(--wa-green);background:#e8f8ef;}
-.choose-icon{font-size:1.8rem;line-height:1;}
-.choose-title{font-size:.9rem;font-weight:800;color:var(--blue);}
-.choose-btn.human-btn .choose-title{color:#14532d;}
-.choose-sub{font-size:.72rem;color:var(--text-muted);line-height:1.3;}
-.back-btn{background:none;border:none;color:var(--text-muted);font-size:.78rem;cursor:pointer;padding:0 0 12px;display:block;text-decoration:underline;}
-.back-btn:hover{color:var(--blue);}
+/* ── MODE TOGGLE ── */
+.mode-toggle{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;}
+.mode-btn{display:flex;align-items:center;justify-content:center;gap:7px;padding:10px 8px;border:2px solid var(--border);border-radius:var(--radius);background:var(--grad-soft);cursor:pointer;font-size:.82rem;font-weight:700;color:var(--text-muted);transition:all .18s;font-family:inherit;}
+.mode-btn:hover{border-color:var(--blue-mid);color:var(--blue);background:var(--blue-pale);}
+.mode-btn.active{border-color:var(--wa-green);background:#e8f8ef;color:#14532d;}
+.mode-icon{font-size:1.1rem;line-height:1;}
+.mode-title{font-size:.82rem;font-weight:800;}
 
 /* ── VEHICLE TYPE TOGGLE ── */
 .vehicle-toggle{display:flex;background:#f1f5f9;border-radius:10px;padding:3px;margin-bottom:14px;gap:3px;}
@@ -295,46 +301,36 @@ html[lang="ta"] .wa-tip-hero{font-size:.73rem;}
   <!-- BOOKING CARD -->
   <div class="quote-card" role="main">
 
-    <!-- STEP 1: CHOOSE MODE -->
-    <div id="choose-mode" class="choose-mode-wrap">
-      <p class="choose-label" data-i18n="choose_label">எவ்வாறு தொடர விரும்புகிறீர்கள்?</p>
-      <div class="choose-btns">
-        <button class="choose-btn human-btn" onclick="selectMode('human')">
-          <span class="choose-icon">💬</span>
-          <span class="choose-title" data-i18n="btn_human">உடன் பேசுங்கள்</span>
-          <span class="choose-sub" data-i18n="btn_human_sub">நேரடி WhatsApp</span>
-        </button>
-        <button class="choose-btn quote-btn" onclick="selectMode('quote')">
-          <span class="choose-icon">📋</span>
-          <span class="choose-title" data-i18n="btn_quote">கோட்டேஷன் பெறுங்கள்</span>
-          <span class="choose-sub" data-i18n="btn_quote_sub">விலை விவரம்</span>
-        </button>
+    <!-- MODE TOGGLE (always visible, switchable anytime) -->
+    <div class="mode-toggle" role="group" aria-label="Booking mode">
+      <button class="mode-btn active" id="mode-human" onclick="selectMode('human')">
+        <span class="mode-icon">💬</span>
+        <span class="mode-title" data-i18n="btn_human">உடன் பேசுங்கள்</span>
+      </button>
+      <button class="mode-btn" id="mode-quote" onclick="selectMode('quote')">
+        <span class="mode-icon">📋</span>
+        <span class="mode-title" data-i18n="btn_quote">கோட்டேஷன் பெறுங்கள்</span>
+      </button>
+    </div>
+
+    <!-- BOOKING FORM -->
+    <div id="booking-form">
+
+    <!-- LOCATION PAIR (the 2 key details) -->
+    <div class="location-pair">
+      <div class="loc-field">
+        <label class="field-label" for="pickup-input" data-i18n="label_pickup">ஏறும் இடம்</label>
+        <div class="text-input-wrap">
+          <input type="text" id="pickup-input" data-i18n-ph="ph_pickup" placeholder="நகரம் அல்லது இடம்" autocomplete="off" aria-label="Pickup location" />
+        </div>
       </div>
-    </div>
-
-    <!-- STEP 2: BOOKING FORM (hidden until mode chosen) -->
-    <div id="booking-form" style="display:none">
-      <button class="back-btn" onclick="goBack()" data-i18n="btn_back">← மாற்று</button>
-
-    <!-- TRIP TYPE TOGGLE -->
-    <div class="trip-toggle" role="group" aria-label="Trip type">
-      <button class="trip-btn active" id="btn-oneway" onclick="setTrip('oneway')">
-        <span class="tb-icon">🛣️</span><span data-i18n="trip_one">ஒரு திசை</span>
-      </button>
-      <button class="trip-btn" id="btn-round" onclick="setTrip('round')">
-        <span class="tb-icon">🔄</span><span data-i18n="trip_round">ரவுண்ட் டிரிப்</span>
-      </button>
-    </div>
-
-    <!-- PICKUP & DROP LOCATIONS -->
-    <label class="field-label" for="pickup-input" data-i18n="label_pickup">ஏறும் இடம்</label>
-    <div class="text-input-wrap">
-      <input type="text" id="pickup-input" data-i18n-ph="ph_pickup" placeholder="நகரம் அல்லது இடம்" autocomplete="off" aria-label="Pickup location" />
-    </div>
-
-    <label class="field-label" for="drop-input" data-i18n="label_drop">இறங்கும் இடம்</label>
-    <div class="text-input-wrap">
-      <input type="text" id="drop-input" data-i18n-ph="ph_drop" placeholder="நகரம் அல்லது இடம்" autocomplete="off" aria-label="Drop location" />
+      <button class="swap-btn" onclick="swapLocations()" aria-label="Swap pickup and drop" title="Swap">⇅</button>
+      <div class="loc-field">
+        <label class="field-label" for="drop-input" data-i18n="label_drop">இறங்கும் இடம்</label>
+        <div class="text-input-wrap">
+          <input type="text" id="drop-input" data-i18n-ph="ph_drop" placeholder="நகரம் அல்லது இடம்" autocomplete="off" aria-label="Drop location" />
+        </div>
+      </div>
     </div>
 
     <!-- DATE & TIME -->
@@ -358,19 +354,33 @@ html[lang="ta"] .wa-tip-hero{font-size:.73rem;}
       </div>
     </div>
 
-    <!-- VEHICLE TYPE -->
-    <label class="field-label" data-i18n="label_vehicle">வாகன வகை</label>
-    <div class="vehicle-toggle" role="group" aria-label="Vehicle type">
-      <button class="vehicle-btn active" id="v-sedan" onclick="setVehicle('sedan')">
-        <span class="vb-icon">🚗</span><span data-i18n="v_sedan">சேடான்</span>
-      </button>
-      <button class="vehicle-btn" id="v-suv" onclick="setVehicle('suv')">
-        <span class="vb-icon">🚙</span><span>SUV</span>
-      </button>
-      <button class="vehicle-btn" id="v-premium" onclick="setVehicle('premium')">
-        <span class="vb-icon">✨</span><span data-i18n="v_premium">பிரீமியம்</span>
-      </button>
-    </div>
+    <!-- PREFERENCES (collapsible, truly optional) -->
+    <details class="prefs-details">
+      <summary class="prefs-summary"><span data-i18n="label_prefs">பயண விருப்பங்கள் (விருப்பத்தேர்வு)</span></summary>
+      <div class="prefs-body">
+        <!-- TRIP TYPE -->
+        <div class="trip-toggle" role="group" aria-label="Trip type">
+          <button class="trip-btn active" id="btn-oneway" onclick="setTrip('oneway')">
+            <span class="tb-icon">🛣️</span><span data-i18n="trip_one">ஒரு திசை</span>
+          </button>
+          <button class="trip-btn" id="btn-round" onclick="setTrip('round')">
+            <span class="tb-icon">🔄</span><span data-i18n="trip_round">ரவுண்ட் டிரிப்</span>
+          </button>
+        </div>
+        <!-- VEHICLE TYPE -->
+        <div class="vehicle-toggle" role="group" aria-label="Vehicle type">
+          <button class="vehicle-btn active" id="v-sedan" onclick="setVehicle('sedan')">
+            <span class="vb-icon">🚗</span><span data-i18n="v_sedan">சேடான்</span>
+          </button>
+          <button class="vehicle-btn" id="v-suv" onclick="setVehicle('suv')">
+            <span class="vb-icon">🚙</span><span>SUV</span>
+          </button>
+          <button class="vehicle-btn" id="v-premium" onclick="setVehicle('premium')">
+            <span class="vb-icon">✨</span><span data-i18n="v_premium">பிரீமியம்</span>
+          </button>
+        </div>
+      </div>
+    </details>
 
     <label class="field-label" for="phone-input" data-i18n="label_phone">உங்கள் WhatsApp எண்</label>
     <div class="phone-input-wrap" role="group" aria-label="Phone number">
@@ -516,7 +526,7 @@ const T = {
     badge:"ஒரு திசை டிராப் & ரவுண்ட் டிரிப் — மறைமுக கட்டணம் இல்லை",
     hero_h1:"உங்கள் பயணம் தொடங்குகிறது", hero_span:"2 கிளிக்கில்.",
     hero_p:"ஒரு திசை டிராப் அல்லது ரவுண்ட் டிரிப் — வசதியான, வெளிப்படையான, சரியான நேரத்தில்.",
-    tc_head:'வெறும் <span>2 தகவல்கள்</span> — உங்கள் பயணம் ஆரம்பம் 🚕',
+    tc_head:'வெறும் <span>2 தகவல்கள்</span> — உங்கள் பயணம் ஆரம்பம் <img src="logo.webp" class="tc-logo" alt="DROPeZi">',
     tc1:"📍 ஏறும் → இறங்கும் + தேதி & நேரம்", tc2:"🚗 வாகனம் தேர்வு",
     card_title:"உடனடியாக பயணம் முன்பதிவு செய்யுங்கள்", card_sub:"எங்கள் குழு WhatsApp-ல் நிமிடங்களில் பதில் அளிக்கும்",
     trip_one:"ஒரு திசை", trip_round:"ரவுண்ட் டிரிப்",
@@ -558,13 +568,14 @@ const T = {
     label_vehicle:"வாகன வகை",
     v_sedan:"சேடான்",
     v_premium:"பிரீமியம்",
-    cta_quote:"WhatsApp-ல் கோட்டேஷன் பெறுங்கள்", trip_label_round:"ரவுண்ட் டிரிப்"
+    cta_quote:"WhatsApp-ல் கோட்டேஷன் பெறுங்கள்",
+    label_prefs:"பயண விருப்பங்கள் (விருப்பத்தேர்வு)", trip_label_round:"ரவுண்ட் டிரிப்"
   },
   en:{
     badge:"One-Way Drop Taxi & Round Trips — No Hidden Charges",
     hero_h1:"Your Journey Starts", hero_span:"in 2 Taps.",
     hero_p:"One-way drop or round trip — comfortable, transparent, and on-time across South India.",
-    tc_head:'Just <span>2 details</span> away from your ride 🚕',
+    tc_head:'Just <span>2 details</span> away from your ride <img src="logo.webp" class="tc-logo" alt="DROPeZi">',
     tc1:"📍 Pickup → Drop + Date & Time", tc2:"🚗 Choose Your Vehicle",
     card_title:"Book Your Ride Instantly", card_sub:"Our team responds on WhatsApp in minutes",
     trip_one:"One-Way Drop", trip_round:"Round Trip",
@@ -606,13 +617,14 @@ const T = {
     label_vehicle:"Vehicle Type",
     v_sedan:"Sedan",
     v_premium:"Premium",
-    cta_quote:"Get Quote on WhatsApp", trip_label_round:"Round Trip"
+    cta_quote:"Get Quote on WhatsApp",
+    label_prefs:"Trip options (optional)", trip_label_round:"Round Trip"
   },
   hi:{
     badge:"वन-वे ड्रॉप टैक्सी & राउंड ट्रिप — कोई छुपा शुल्क नहीं",
     hero_h1:"आपकी यात्रा शुरू होती है", hero_span:"2 टैप में.",
     hero_p:"वन-वे ड्रॉप या राउंड ट्रिप — आरामदेह, पारदर्शी, समय पर पूरे दक्षिण भारत में।",
-    tc_head:'सिर्फ <span>2 जानकारी</span> — आपकी यात्रा शुरू 🚕',
+    tc_head:'सिर्फ <span>2 जानकारी</span> — आपकी यात्रा शुरू <img src="logo.webp" class="tc-logo" alt="DROPeZi">',
     tc1:"📍 पिकअप → ड्रॉप + तारीख & समय", tc2:"🚗 वाहन चुनें",
     card_title:"तुरंत राइड बुक करें", card_sub:"हमारी टीम WhatsApp पर मिनटों में जवाब देती है",
     trip_one:"वन-वे ड्रॉप", trip_round:"राउंड ट्रिप",
@@ -654,13 +666,14 @@ const T = {
     label_vehicle:"वाहन प्रकार",
     v_sedan:"सेडान",
     v_premium:"प्रीमियम",
-    cta_quote:"WhatsApp पर कोटेशन पाएं", trip_label_round:"राउंड ट्रिप"
+    cta_quote:"WhatsApp पर कोटेशन पाएं",
+    label_prefs:"यात्रा विकल्प (वैकल्पिक)", trip_label_round:"राउंड ट्रिप"
   },
   kn:{
     badge:"ಒಂದೇ ದಿಕ್ಕಿನ ಡ್ರಾಪ್ & ರೌಂಡ್ ಟ್ರಿಪ್ — ಮರೆಮಾಚಿದ ಶುಲ್ಕವಿಲ್ಲ",
     hero_h1:"ನಿಮ್ಮ ಪ್ರಯಾಣ ಶುರುವಾಗುತ್ತದೆ", hero_span:"2 ಟ್ಯಾಪ್‌ನಲ್ಲಿ.",
     hero_p:"ಒಂದೇ ದಿಕ್ಕು ಅಥವಾ ರೌಂಡ್ ಟ್ರಿಪ್ — ಆರಾಮದಾಯಕ, ಪಾರದರ್ಶಕ, ಸಮಯಕ್ಕೆ.",
-    tc_head:'ಕೇವಲ <span>2 ವಿವರಗಳು</span> — ನಿಮ್ಮ ಪ್ರಯಾಣ ಶುರು 🚕',
+    tc_head:'ಕೇವಲ <span>2 ವಿವರಗಳು</span> — ನಿಮ್ಮ ಪ್ರಯಾಣ ಶುರು <img src="logo.webp" class="tc-logo" alt="DROPeZi">',
     tc1:"📍 ಪಿಕ್‌ಅಪ್ → ಡ್ರಾಪ್ + ದಿನಾಂಕ & ಸಮಯ", tc2:"🚗 ವಾಹನ ಆಯ್ಕೆ ಮಾಡಿ",
     card_title:"ತಕ್ಷಣ ರೈಡ್ ಬುಕ್ ಮಾಡಿ", card_sub:"ನಮ್ಮ ತಂಡ WhatsApp ನಲ್ಲಿ ನಿಮಿಷಗಳಲ್ಲಿ ಉತ್ತರಿಸುತ್ತದೆ",
     trip_one:"ಒಂದೇ ದಿಕ್ಕು", trip_round:"ರೌಂಡ್ ಟ್ರಿಪ್",
@@ -702,13 +715,14 @@ const T = {
     label_vehicle:"ವಾಹನ ವಿಧ",
     v_sedan:"ಸೆಡಾನ್",
     v_premium:"ಪ್ರೀಮಿಯಂ",
-    cta_quote:"WhatsApp ನಲ್ಲಿ ಕೋಟ್ ಪಡೆಯಿರಿ", trip_label_round:"ರೌಂಡ್ ಟ್ರಿಪ್"
+    cta_quote:"WhatsApp ನಲ್ಲಿ ಕೋಟ್ ಪಡೆಯಿರಿ",
+    label_prefs:"ಪ್ರಯಾಣ ಆಯ್ಕೆಗಳು (ಐಚ್ಛಿಕ)", trip_label_round:"ರೌಂಡ್ ಟ್ರಿಪ್"
   },
   ml:{
     badge:"ഒറ്റ ദിശ ഡ്രോപ്പ് & റൗണ്ട് ട്രിപ്പ് — മറഞ്ഞ ചാർജില്ല",
     hero_h1:"നിങ്ങളുടെ യാത്ര ആരംഭിക്കുന്നു", hero_span:"2 ടാപ്പിൽ.",
     hero_p:"ഒറ്റ ദിശ ഡ്രോപ്പ് അല്ലെങ്കിൽ റൗണ്ട് ട്രിപ്പ് — സൗകര്യപ്രദം, സുതാര്യം, സമയത്ത്.",
-    tc_head:'വെറും <span>2 വിവരങ്ങൾ</span> — യാത്ര തുടങ്ങാം 🚕',
+    tc_head:'വെറും <span>2 വിവരങ്ങൾ</span> — യാത്ര തുടങ്ങാം <img src="logo.webp" class="tc-logo" alt="DROPeZi">',
     tc1:"📍 പിക്കപ്പ് → ഡ്രോപ്പ് + തീയതി & സമയം", tc2:"🚗 വാഹനം തിരഞ്ഞെടുക്കൂ",
     card_title:"ഉടൻ റൈഡ് ബുക്ക് ചെയ്യൂ", card_sub:"ഞങ്ങളുടെ ടീം WhatsApp-ൽ മിനിറ്റുകളിൽ മറുപടി നൽകും",
     trip_one:"ഒറ്റ ദിശ", trip_round:"റൗണ്ട് ട്രിപ്പ്",
@@ -750,7 +764,8 @@ const T = {
     label_vehicle:"വാഹന തരം",
     v_sedan:"സെഡാൻ",
     v_premium:"പ്രീമിയം",
-    cta_quote:"WhatsApp-ൽ ക്വോട്ടേഷൻ", trip_label_round:"റൗണ്ട് ട്രിപ്പ്"
+    cta_quote:"WhatsApp-ൽ ക്വോട്ടേഷൻ",
+    label_prefs:"യാത്രാ ഓപ്ഷനുകൾ (ഐച്ഛികം)", trip_label_round:"റൗണ്ട് ട്രിപ്പ്"
   }
 };
 
@@ -783,16 +798,12 @@ function setTrip(type) {
   document.getElementById('btn-round').classList.toggle('active', type === 'round');
 }
 
-/* ══ CHOOSE MODE ══ */
+/* ══ MODE TOGGLE ══ */
 function selectMode(mode) {
   interactionMode = mode;
-  document.getElementById('choose-mode').style.display = 'none';
-  document.getElementById('booking-form').style.display = 'block';
+  document.getElementById('mode-human').classList.toggle('active', mode === 'human');
+  document.getElementById('mode-quote').classList.toggle('active', mode === 'quote');
   updateCTABtn();
-}
-function goBack() {
-  document.getElementById('booking-form').style.display = 'none';
-  document.getElementById('choose-mode').style.display = 'block';
 }
 function updateCTABtn() {
   const t = T[lang];
@@ -801,6 +812,11 @@ function updateCTABtn() {
 }
 
 /* ══ VEHICLE TYPE ══ */
+function swapLocations() {
+  const p = document.getElementById('pickup-input');
+  const d = document.getElementById('drop-input');
+  const tmp = p.value; p.value = d.value; d.value = tmp;
+}
 function setVehicle(type) {
   vehicleType = type;
   document.querySelectorAll('.vehicle-btn').forEach(b => b.classList.remove('active'));
