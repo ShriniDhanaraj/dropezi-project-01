@@ -277,6 +277,14 @@ html[lang="ta"] .wa-tip-hero{font-size:.73rem;}
 .qp-premium-note{background:#f5f3ff;border:1.5px solid #c4b5fd;border-radius:var(--radius);padding:12px 14px;font-size:.82rem;color:#5b21b6;margin-bottom:14px;line-height:1.5;}
 .qp-phone-section{margin-top:14px;}
 
+.qp-vehicle-row{display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+.qp-vehicle-label{font-size:.72rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;flex-shrink:0;}
+.qp-vehicle-btns{display:flex;gap:4px;flex:1;}
+.qpv-btn{flex:1;padding:7px 4px;font-size:.76rem;font-weight:700;border:1.5px solid var(--border);border-radius:8px;background:var(--grad-soft);color:var(--text-muted);cursor:pointer;font-family:inherit;transition:all .15s;}
+.qpv-btn.active{border-color:var(--blue);background:var(--blue-pale);color:var(--blue);}
+.qpv-btn:hover:not(.active){border-color:var(--blue-mid);color:var(--blue);}
+.qp-recalc-btn{background:var(--blue);color:#fff;border:none;border-radius:8px;padding:7px 12px;font-size:.76rem;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;transition:opacity .15s;}
+.qp-recalc-btn:hover{opacity:.88;}
 </style>
 </head>
 <body>
@@ -461,6 +469,16 @@ html[lang="ta"] .wa-tip-hero{font-size:.73rem;}
     </div>
 
     <div id="qp-result" style="display:none">
+      <!-- Vehicle selector inside quote panel -->
+      <div class="qp-vehicle-row">
+        <span class="qp-vehicle-label">Vehicle</span>
+        <div class="qp-vehicle-btns" role="group">
+          <button class="qpv-btn active" id="qpv-sedan"   onclick="qpSetVehicle('sedan')">🚗 Sedan</button>
+          <button class="qpv-btn"        id="qpv-suv"     onclick="qpSetVehicle('suv')">🚙 SUV</button>
+          <button class="qpv-btn"        id="qpv-premium" onclick="qpSetVehicle('premium')">✨ Premium</button>
+        </div>
+        <button class="qp-recalc-btn" onclick="recalculateFare()" id="qp-recalc-btn" style="display:none">↻ Recalculate</button>
+      </div>
       <div class="qp-short-note" id="qp-short-note" style="display:none">
         ℹ Short distance — contact us to confirm minimum fare.
       </div>
@@ -1008,6 +1026,12 @@ function openQuotePanel(pickup, drop, date, time) {
   document.getElementById('qp-phone-err').style.display   = 'none';
   document.getElementById('qp-consent-err').style.display = 'none';
 
+  /* sync vehicle buttons to current selection */
+  ['sedan','suv','premium'].forEach(v => {
+    document.getElementById('qpv-' + v).classList.toggle('active', v === vehicleType);
+  });
+  document.getElementById('qp-recalc-btn').style.display = 'none';
+
   const existingPhone = document.getElementById('phone-input').value.trim();
   if (existingPhone) document.getElementById('qp-phone').value = existingPhone;
 
@@ -1111,6 +1135,59 @@ async function calculateAndShow(pickup, drop) {
     document.getElementById('qp-loading').style.display = 'none';
     document.getElementById('qp-err-txt').textContent   = e.message || 'Could not calculate route.';
     document.getElementById('qp-error').style.display   = 'flex';
+  }
+}
+
+function qpSetVehicle(v) {
+  vehicleType = v;
+  ['sedan','suv','premium'].forEach(id => {
+    document.getElementById('qpv-' + id).classList.toggle('active', id === v);
+  });
+  /* also sync the chip */
+  const vNames = { sedan:'🚗 Sedan', suv:'🚙 SUV', premium:'✨ Premium' };
+  document.getElementById('qr-chip-vehicle').textContent = vNames[v];
+  document.getElementById('qp-recalc-btn').style.display = 'inline-block';
+}
+
+function recalculateFare() {
+  const { billedKm, km, days } = _qData;
+  if (!billedKm && billedKm !== 0) return; /* no data yet */
+  document.getElementById('qp-recalc-btn').style.display = 'none';
+  /* re-run fare math without API calls */
+  const RATES = { sedan:14, suv:19, premium:null };
+  const TOLL_RATE = 80; const DRIVER_PER_DAY = 300;
+  const rupee = n => '\u20B9' + n.toLocaleString('en-IN');
+  const isPremium  = vehicleType === 'premium';
+  const ratePerKm  = RATES[vehicleType];
+  const tollCount  = Math.max(1, Math.round(billedKm / 100));
+  const tollTotal  = tollCount * TOLL_RATE;
+  const driverCost = DRIVER_PER_DAY * days;
+  const fare       = isPremium ? null : billedKm * ratePerKm;
+  const grandTotal = isPremium ? null : fare + driverCost + tollTotal;
+  Object.assign(_qData, { ratePerKm, fare, grandTotal, tollCount, tollTotal, driverCost });
+
+  const isShort  = km < 130;
+  const distLabel = isShort ? km + ' KM (billed: 130 KM min)' : km + ' KM';
+  const rows = isPremium
+    ? [ ['Distance', distLabel, false], ['Vehicle', '\u2728 Premium', false] ]
+    : [ ['Distance', distLabel, false], ['Rate', rupee(ratePerKm) + '/km', false], ['Ride Fare', rupee(fare), true] ];
+  rows.push(['Driver Charge', rupee(driverCost) + ' (' + days + ' day' + (days>1?'s':'') + ')', false]);
+  rows.push(['Tolls (' + tollCount + ' \u00d7 ' + rupee(TOLL_RATE) + ')', rupee(tollTotal), false]);
+
+  document.getElementById('qp-table').innerHTML = rows.map(([l,v,hi]) =>
+    '<div class="qp-row"><span class="qp-row-label">'+l+'</span>'
+    +'<span class="qp-row-val'+(hi?' highlight':'')+'">' +v+'</span></div>'
+  ).join('');
+
+  const grandEl = document.getElementById('qp-grand-row');
+  const premEl  = document.getElementById('qp-premium-note');
+  if (isPremium) {
+    grandEl.style.display = 'none'; premEl.style.display = 'block';
+    document.getElementById('qp-cta-txt').textContent = 'Get Premium Quote on WhatsApp';
+  } else {
+    grandEl.style.display = 'flex'; premEl.style.display = 'none';
+    document.getElementById('qp-grand').textContent = rupee(grandTotal);
+    document.getElementById('qp-cta-txt').textContent = 'Confirm & Book on WhatsApp';
   }
 }
 
