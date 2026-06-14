@@ -244,6 +244,39 @@ html[lang="ta"] .wa-tip-hero{font-size:.73rem;}
   .logo-wrap img{height:46px;}
 }
 .tc-logo{height:18px;width:auto;vertical-align:middle;display:inline-block;margin-left:3px;}
+
+/* ══ QUOTE PANEL ══ */
+#quote-panel{padding:4px 0 8px;}
+.qp-back{background:none;border:none;color:var(--blue);font-size:.78rem;font-weight:700;cursor:pointer;padding:0 0 14px;display:block;text-decoration:none;letter-spacing:.2px;}
+.qp-back:hover{text-decoration:underline;}
+.qp-route{position:relative;padding:0 0 0 18px;margin-bottom:10px;}
+.qp-loc{display:flex;align-items:center;gap:8px;padding:2px 0;}
+.qp-city{font-size:.92rem;font-weight:700;color:var(--text);}
+.qp-dot{font-size:.6rem;line-height:1;flex-shrink:0;}
+.qp-dot-from{color:var(--blue);}
+.qp-dot-to{color:var(--wa-green);}
+.qp-vline{width:1px;height:20px;background:var(--border);margin:3px 0 3px 3px;position:relative;display:flex;align-items:center;}
+.qp-km-badge{position:absolute;left:8px;background:var(--blue-pale);color:var(--blue);font-size:.7rem;font-weight:800;padding:1px 7px;border-radius:20px;white-space:nowrap;border:1px solid var(--blue-mid);}
+.qp-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;}
+.qp-chip{font-size:.72rem;font-weight:600;color:var(--text-muted);background:var(--grad-soft);border:1px solid var(--border);border-radius:20px;padding:3px 10px;}
+.qp-loading{display:flex;align-items:center;gap:10px;font-size:.85rem;color:var(--text-muted);padding:20px 0;}
+.qp-spinner{width:18px;height:18px;border:2px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.qp-error{background:#fff1f2;border:1.5px solid #fecdd3;border-radius:var(--radius);padding:12px 14px;font-size:.82rem;color:#be123c;display:flex;align-items:center;gap:8px;margin-bottom:12px;}
+.qp-retry{margin-left:auto;background:none;border:1.5px solid #be123c;border-radius:6px;color:#be123c;font-size:.75rem;padding:4px 10px;cursor:pointer;}
+.qp-short-note{background:#fefce8;border:1.5px solid #fde047;border-radius:var(--radius);padding:10px 12px;font-size:.78rem;color:#713f12;margin-bottom:12px;}
+.qp-table{background:var(--grad-soft);border-radius:var(--radius);overflow:hidden;margin-bottom:0;}
+.qp-row{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid var(--border);font-size:.83rem;}
+.qp-row:last-child{border-bottom:none;}
+.qp-row-label{color:var(--text-muted);font-weight:600;}
+.qp-row-val{color:var(--text);font-weight:700;text-align:right;}
+.qp-row-val.highlight{color:var(--blue);}
+.qp-grand-row{display:flex;justify-content:space-between;align-items:center;padding:13px 14px;background:var(--blue);border-radius:0 0 var(--radius) var(--radius);margin-bottom:14px;}
+.qp-grand-row span:first-child{color:rgba(255,255,255,.85);font-size:.82rem;font-weight:700;}
+.qp-grand-amt{color:#fff;font-size:1.18rem;font-weight:800;}
+.qp-premium-note{background:#f5f3ff;border:1.5px solid #c4b5fd;border-radius:var(--radius);padding:12px 14px;font-size:.82rem;color:#5b21b6;margin-bottom:14px;line-height:1.5;}
+.qp-phone-section{margin-top:14px;}
+
 </style>
 </head>
 <body>
@@ -409,6 +442,56 @@ html[lang="ta"] .wa-tip-hero{font-size:.73rem;}
     </button>
     <p class="privacy-note">🔒 <span data-i18n="privacy_note">உங்கள் எண் முன்பதிவுக்கு மட்டும். ஸ்பேம் இல்லை.</span></p>
     </div><!-- /booking-form -->
+  <!-- ══ QUOTE PANEL ══ -->
+  <div id="quote-panel" style="display:none" aria-live="polite">
+    <button class="qp-back" onclick="closeQuotePanel()">← <span data-i18n="btn_back_edit">Edit Details</span></button>
+
+    <div class="qp-route">
+      <div class="qp-loc"><span class="qp-dot qp-dot-from">●</span><span id="qr-from" class="qp-city">—</span></div>
+      <div class="qp-vline"><span class="qp-km-badge" id="qr-km-badge"></span></div>
+      <div class="qp-loc"><span class="qp-dot qp-dot-to">●</span><span id="qr-to" class="qp-city">—</span></div>
+    </div>
+    <div class="qp-chips"><span class="qp-chip" id="qr-chip-dt"></span><span class="qp-chip" id="qr-chip-vehicle"></span><span class="qp-chip" id="qr-chip-trip"></span></div>
+
+    <div id="qp-loading" class="qp-loading"><span class="qp-spinner"></span> Calculating route…</div>
+
+    <div id="qp-error" class="qp-error" style="display:none">
+      ⚠ <span id="qp-err-txt">Could not calculate route.</span>
+      <button class="qp-retry" onclick="retryQuote()">Retry</button>
+    </div>
+
+    <div id="qp-result" style="display:none">
+      <div class="qp-short-note" id="qp-short-note" style="display:none">
+        ℹ Short distance — contact us to confirm minimum fare.
+      </div>
+      <div class="qp-table" id="qp-table"></div>
+      <div class="qp-grand-row" id="qp-grand-row" style="display:none">
+        <span>Grand Total</span><span class="qp-grand-amt" id="qp-grand"></span>
+      </div>
+      <div class="qp-premium-note" id="qp-premium-note" style="display:none">
+        ✨ Premium pricing is personalised. We'll send your exact quote on WhatsApp.
+      </div>
+      <div class="qp-phone-section">
+        <label class="field-label" for="qp-phone">Your WhatsApp Number</label>
+        <div class="phone-input-wrap" style="margin-bottom:6px">
+          <div class="phone-prefix"><span class="flag">🇮🇳</span><span>+91</span></div>
+          <input type="tel" id="qp-phone" maxlength="10" inputmode="numeric" autocomplete="tel-national" placeholder="98765 43210"/>
+        </div>
+        <div class="error-msg" id="qp-phone-err" style="display:none" data-i18n="error_invalid">Please enter a valid 10-digit number.</div>
+        <div class="consent-wrap">
+          <input type="checkbox" id="qp-consent"/>
+          <label class="consent-label" for="qp-consent"><span data-i18n="consent_text">I allow DROPeZi to contact me for my booking.</span></label>
+        </div>
+        <div class="error-msg" id="qp-consent-err" style="display:none" data-i18n="error_consent">Please tick the consent box.</div>
+      </div>
+      <button class="cta-btn" onclick="sendQuoteOnWA()">
+        <svg class="wa-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        <span id="qp-cta-txt">Send Quote on WhatsApp</span>
+      </button>
+      <p class="privacy-note">🔒 <span data-i18n="privacy_note">Your number is only used for your booking.</span></p>
+    </div>
+  </div>
+
   </div><!-- /quote-card -->
 </section>
 
@@ -872,25 +955,194 @@ function buildMsg(phone, pickup, drop, travelDate, travelTime) {
 }
 
 /* ══ HANDLE QUOTE BUTTON (Fix A: shows overlay, then uses location.href) ══ */
+/* ── Quote calculation state ── */
+let _qData = {};
+
 function handleGetQuote() {
   clearError();
+  const pickup = document.getElementById('pickup-input').value.trim();
+  const drop   = document.getElementById('drop-input').value.trim();
+
+  if (interactionMode === 'quote') {
+    if (!pickup) { document.getElementById('pickup-input').focus(); return; }
+    if (!drop)   { document.getElementById('drop-input').focus(); return; }
+    const travelDate = document.getElementById('travel-date').value;
+    const travelTime = document.getElementById('travel-time-h').value + ':' + document.getElementById('travel-time-m').value;
+    openQuotePanel(pickup, drop, travelDate, travelTime);
+    return;
+  }
+
+  /* Human / Talk-to-Us mode */
   const cleaned = document.getElementById('phone-input').value.replace(/\D/g,'');
   if (!validatePhone(cleaned)) { showError('error_invalid'); document.getElementById('phone-input').focus(); return; }
   if (!document.getElementById('consent-check').checked) { showError('error_consent'); return; }
-
-  const pickup     = document.getElementById('pickup-input').value.trim();
-  const drop       = document.getElementById('drop-input').value.trim();
   const travelDate = document.getElementById('travel-date').value;
   const travelTime = document.getElementById('travel-time-h').value + ':' + document.getElementById('travel-time-m').value;
-
-  const fmt = '+91 ' + cleaned.replace(/(\d{5})(\d{5})/, '$1 $2');
+  const fmt = '+91\u00a0' + cleaned.replace(/(\d{5})(\d{5})/, '$1\u00a0$2');
   const t = T[lang];
   pendingUrl = `https://wa.me/${CARE}?text=${encodeURIComponent(buildMsg(cleaned, pickup, drop, travelDate, travelTime))}`;
-
   document.getElementById('success-num').textContent = fmt;
   document.getElementById('success-trip').textContent = tripType === 'round' ? t.trip_label_round : t.trip_label_one;
   document.getElementById('success-overlay').classList.add('show');
 }
+
+/* ── Quote panel ── */
+function openQuotePanel(pickup, drop, date, time) {
+  _qData = { pickup, drop, date, time };
+  document.getElementById('booking-form').style.display = 'none';
+  document.querySelector('.mode-toggle').style.display  = 'none';
+  document.getElementById('quote-panel').style.display  = 'block';
+
+  document.getElementById('qr-from').textContent = pickup;
+  document.getElementById('qr-to').textContent   = drop;
+  document.getElementById('qr-km-badge').textContent = '';
+
+  const vNames = { sedan:'🚗 Sedan', suv:'🚙 SUV', premium:'✨ Premium' };
+  document.getElementById('qr-chip-dt').textContent      = (date ? date + ' · ' : '') + time;
+  document.getElementById('qr-chip-vehicle').textContent = vNames[vehicleType] || vehicleType;
+  document.getElementById('qr-chip-trip').textContent    = tripType === 'round' ? 'Round Trip' : 'One-Way';
+
+  document.getElementById('qp-loading').style.display = 'flex';
+  document.getElementById('qp-error').style.display   = 'none';
+  document.getElementById('qp-result').style.display  = 'none';
+  document.getElementById('qp-phone-err').style.display   = 'none';
+  document.getElementById('qp-consent-err').style.display = 'none';
+
+  const existingPhone = document.getElementById('phone-input').value.trim();
+  if (existingPhone) document.getElementById('qp-phone').value = existingPhone;
+
+  calculateAndShow(pickup, drop);
+}
+
+function closeQuotePanel() {
+  document.getElementById('quote-panel').style.display  = 'none';
+  document.getElementById('booking-form').style.display = 'block';
+  document.querySelector('.mode-toggle').style.display  = 'grid';
+}
+
+function retryQuote() {
+  const { pickup, drop, date, time } = _qData;
+  openQuotePanel(pickup, drop, date, time);
+}
+
+async function geocodePlace(place) {
+  const url = 'https://nominatim.openstreetmap.org/search?q='
+    + encodeURIComponent(place + ', India')
+    + '&format=json&limit=1&countrycodes=in&accept-language=en';
+  const r = await fetch(url);
+  const d = await r.json();
+  if (!d.length) throw new Error('Location not found: ' + place);
+  return { lat: parseFloat(d[0].lat), lon: parseFloat(d[0].lon) };
+}
+
+async function getRoadKm(lat1, lon1, lat2, lon2) {
+  const url = `https://router.project-osrm.org/route/v1/driving/${lon1},${lat1};${lon2},${lat2}?overview=false`;
+  const r = await fetch(url);
+  const d = await r.json();
+  if (d.code !== 'Ok') throw new Error('Route not found');
+  return Math.round(d.routes[0].distance / 1000);
+}
+
+async function calculateAndShow(pickup, drop) {
+  const RATES          = { sedan: 14, suv: 19, premium: null };
+  const DRIVER_PER_DAY = 300;
+  const TOLL_RATE      = 80;
+  const MIN_KM         = 130;
+  const rupee = n => '\u20B9' + n.toLocaleString('en-IN');
+
+  try {
+    const [p, d] = await Promise.all([geocodePlace(pickup), geocodePlace(drop)]);
+    let km  = await getRoadKm(p.lat, p.lon, d.lat, d.lon);
+    const days = tripType === 'round' ? 2 : 1;
+    if (tripType === 'round') km = km * 2;
+    _qData.km = km; _qData.days = days;
+
+    document.getElementById('qr-km-badge').textContent = km + ' KM';
+    document.getElementById('qp-loading').style.display = 'none';
+    document.getElementById('qp-result').style.display  = 'block';
+    document.getElementById('qp-short-note').style.display = km < MIN_KM ? 'block' : 'none';
+
+    const tollCount  = Math.max(1, Math.round(km / 100));
+    const tollTotal  = tollCount * TOLL_RATE;
+    const driverCost = DRIVER_PER_DAY * days;
+    const ratePerKm  = RATES[vehicleType];
+    const isPremium  = vehicleType === 'premium';
+    const fare       = isPremium ? null : km * ratePerKm;
+    const grandTotal = isPremium ? null : fare + driverCost + tollTotal;
+
+    Object.assign(_qData, { tollCount, tollTotal, driverCost, ratePerKm, fare, grandTotal });
+
+    const rows = isPremium
+      ? [ ['Distance', km + ' KM', false], ['Vehicle', '\u2728 Premium', false] ]
+      : [ ['Distance', km + ' KM', false], ['Rate', rupee(ratePerKm) + '/km', false], ['Ride Fare', rupee(fare), true] ];
+
+    rows.push(['Driver Charge', rupee(driverCost) + ' (' + days + ' day' + (days > 1 ? 's' : '') + ')', false]);
+    rows.push(['Tolls (' + tollCount + ' \u00d7 ' + rupee(TOLL_RATE) + ')', rupee(tollTotal), false]);
+
+    document.getElementById('qp-table').innerHTML = rows.map(([l, v, hi]) =>
+      '<div class="qp-row"><span class="qp-row-label">' + l + '</span>'
+      + '<span class="qp-row-val' + (hi ? ' highlight' : '') + '">' + v + '</span></div>'
+    ).join('');
+
+    const grandEl  = document.getElementById('qp-grand-row');
+    const premEl   = document.getElementById('qp-premium-note');
+    if (isPremium) {
+      grandEl.style.display = 'none';
+      premEl.style.display  = 'block';
+      document.getElementById('qp-cta-txt').textContent = 'Get Premium Quote on WhatsApp';
+    } else {
+      grandEl.style.display = 'flex';
+      premEl.style.display  = 'none';
+      document.getElementById('qp-grand').textContent  = rupee(grandTotal);
+      document.getElementById('qp-cta-txt').textContent = 'Confirm & Book on WhatsApp';
+    }
+  } catch(e) {
+    document.getElementById('qp-loading').style.display = 'none';
+    document.getElementById('qp-err-txt').textContent   = e.message || 'Could not calculate route.';
+    document.getElementById('qp-error').style.display   = 'flex';
+  }
+}
+
+function sendQuoteOnWA() {
+  const phone   = document.getElementById('qp-phone').value.replace(/\D/g,'');
+  const consent = document.getElementById('qp-consent').checked;
+  document.getElementById('qp-phone-err').style.display   = 'none';
+  document.getElementById('qp-consent-err').style.display = 'none';
+  if (!validatePhone(phone)) { document.getElementById('qp-phone-err').style.display = 'block'; document.getElementById('qp-phone').focus(); return; }
+  if (!consent) { document.getElementById('qp-consent-err').style.display = 'block'; return; }
+
+  const { pickup, drop, date, time, km, days, ratePerKm, fare, driverCost, tollCount, tollTotal, grandTotal } = _qData;
+  const rupee = n => '\u20B9' + n.toLocaleString('en-IN');
+  const isPremium  = vehicleType === 'premium';
+  const vNames     = { sedan:'Sedan', suv:'SUV', premium:'Premium' };
+  const tripLabel  = tripType === 'round' ? 'Round Trip' : 'One-Way';
+
+  let msg = 'Hello DROPeZi!\n'
+    + (isPremium ? '\u2728 Premium Quote Request' : '\uD83D\uDCCB Quote Request') + '\n\n'
+    + '\uD83D\uDCCD Pickup  : ' + pickup + '\n'
+    + '\uD83D\uDCCD Drop    : ' + drop   + '\n'
+    + (date ? '\uD83D\uDCC5 Date    : ' + date + ' at ' + time : '\uD83D\uDD50 Time    : ' + time) + '\n'
+    + '\uD83D\uDE97 Vehicle : ' + vNames[vehicleType] + ' (' + tripLabel + ')\n'
+    + '\uD83D\uDCCF Distance: ' + km + ' KM\n\n';
+
+  if (!isPremium && fare != null) {
+    msg += 'Rate          : ' + rupee(ratePerKm) + '/km\n'
+      + 'Ride Fare     : ' + rupee(fare) + '\n'
+      + 'Driver Charge : ' + rupee(driverCost) + ' (' + days + ' day' + (days > 1 ? 's' : '') + ')\n'
+      + 'Tolls (' + tollCount + ')     : ' + rupee(tollTotal) + '\n'
+      + '\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n'
+      + 'Grand Total   : ' + rupee(grandTotal) + '\n\n'
+      + 'Please confirm and assign a driver. Thank you!';
+  } else {
+    msg += 'Driver Charge : ' + rupee(driverCost) + ' (' + days + ' day' + (days > 1 ? 's' : '') + ')\n'
+      + 'Tolls (' + tollCount + ')     : ' + rupee(tollTotal) + '\n\n'
+      + 'Please send premium pricing for this route. Thank you!';
+  }
+  msg += '\n\nMy WhatsApp: +91 ' + phone.replace(/(\d{5})(\d{5})/, '$1 $2');
+
+  window.location.href = 'https://wa.me/' + CARE + '?text=' + encodeURIComponent(msg);
+}
+
 
 /* ══ FIX A: window.location.href skips browser's "Open external link?" popup ══ */
 function goToWhatsApp() {
