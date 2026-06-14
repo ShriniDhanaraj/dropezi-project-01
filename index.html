@@ -163,6 +163,15 @@ footer a{color:#fdba74;text-decoration:none;}
 .success-wa-btn:hover{background:#1db954;}
 .success-cancel{background:none;border:none;color:var(--text-muted);font-size:.8rem;cursor:pointer;margin-top:12px;text-decoration:underline;display:block;width:100%;padding:4px;}
 
+/* ── BOOKING FIELDS (pickup / drop / date / time) ── */
+.text-input-wrap{border:2px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:border-color .2s,box-shadow .2s;margin-bottom:14px;}
+.text-input-wrap:focus-within{border-color:var(--blue-mid);box-shadow:0 0 0 4px rgba(37,99,235,.1);}
+.text-input-wrap input{border:none;outline:none;padding:13px 14px;font-size:.97rem;width:100%;font-family:'Noto Sans Tamil','Inter',system-ui,sans-serif;color:var(--text);background:transparent;}
+.text-input-wrap input::placeholder{color:#c0c8d8;}
+.date-time-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.dt-input{width:100%;border:2px solid var(--border);border-radius:var(--radius);padding:12px 14px;font-size:.93rem;font-family:'Inter',system-ui,sans-serif;color:var(--text);outline:none;transition:border-color .2s,box-shadow .2s;background:var(--white);}
+.dt-input:focus{border-color:var(--blue-mid);box-shadow:0 0 0 4px rgba(37,99,235,.1);}
+
 /* ── RESPONSIVE ── */
 @media(max-width:560px){
   .quote-card{padding:24px 16px 20px;}
@@ -223,6 +232,29 @@ footer a{color:#fdba74;text-decoration:none;}
       <button class="trip-btn" id="btn-round" onclick="setTrip('round')">
         <span class="tb-icon">🔄</span><span data-i18n="trip_round">ரவுண்ட் டிரிப்</span>
       </button>
+    </div>
+
+    <!-- PICKUP & DROP LOCATIONS -->
+    <label class="field-label" for="pickup-input" data-i18n="label_pickup">ஏறும் இடம்</label>
+    <div class="text-input-wrap">
+      <input type="text" id="pickup-input" data-i18n-ph="ph_pickup" placeholder="நகரம் அல்லது இடம்" autocomplete="off" aria-label="Pickup location" />
+    </div>
+
+    <label class="field-label" for="drop-input" data-i18n="label_drop">இறங்கும் இடம்</label>
+    <div class="text-input-wrap">
+      <input type="text" id="drop-input" data-i18n-ph="ph_drop" placeholder="நகரம் அல்லது இடம்" autocomplete="off" aria-label="Drop location" />
+    </div>
+
+    <!-- DATE & TIME -->
+    <div class="date-time-row">
+      <div class="dt-field">
+        <label class="field-label" for="travel-date" data-i18n="label_date">தேதி</label>
+        <input type="date" id="travel-date" class="dt-input" aria-label="Travel date" />
+      </div>
+      <div class="dt-field">
+        <label class="field-label" for="travel-time" data-i18n="label_time">நேரம்</label>
+        <input type="time" id="travel-time" class="dt-input" aria-label="Travel time" />
+      </div>
     </div>
 
     <!-- WA TIP: skip popup -->
@@ -383,6 +415,9 @@ const T = {
     card_title:"உடனடியாக பயணம் முன்பதிவு செய்யுங்கள்", card_sub:"எங்கள் குழு WhatsApp-ல் நிமிடங்களில் பதில் அளிக்கும்",
     trip_one:"ஒரு திசை", trip_round:"ரவுண்ட் டிரிப்",
     wa_tip:'மொபைலில் உள்ளீர்களா? <a onclick="openWADirect()" tabindex="0">இங்கே தட்டி நேரடியாக WhatsApp திறக்கலாம்</a> — Browser popup இல்லாமல்.',
+    label_pickup:"ஏறும் இடம்", ph_pickup:"நகரம் அல்லது இடம்",
+    label_drop:"இறங்கும் இடம்", ph_drop:"நகரம் அல்லது இடம்",
+    label_date:"தேதி", label_time:"நேரம்",
     label_phone:"உங்கள் WhatsApp எண்", ph_placeholder:"98765 43210",
     consent_text:"பயண மேற்கோள் மற்றும் முன்பதிவுக்காக <strong>DROPeZi</strong> என்னை தொடர்பு கொள்ள அனுமதிக்கிறேன். எனக்கு திரும்ப அழைப்பு வழங்கலாம்.",
     error_invalid:"சரியான 10 இலக்க இந்திய எண்ணை உள்ளிடுக.", error_consent:"சம்மதப் பெட்டியை தட்டுக.",
@@ -418,6 +453,9 @@ const T = {
     card_title:"Book Your Ride Instantly", card_sub:"Our team responds on WhatsApp in minutes",
     trip_one:"One-Way Drop", trip_round:"Round Trip",
     wa_tip:'On mobile? <a onclick="openWADirect()" tabindex="0">Tap here to open WhatsApp directly</a> — skips the browser popup.',
+    label_pickup:"Pickup Location", ph_pickup:"City or Place",
+    label_drop:"Drop Location", ph_drop:"City or Place",
+    label_date:"Date", label_time:"Time",
     label_phone:"Your WhatsApp Number", ph_placeholder:"98765 43210",
     consent_text:"I allow <strong>DROPeZi</strong> to contact me on this number for my ride quote and follow-up booking. I consent to a callback.",
     error_invalid:"Please enter a valid 10-digit Indian mobile number.", error_consent:"Please tick the consent box to continue.",
@@ -453,6 +491,9 @@ const T = {
     card_title:"तुरंत राइड बुक करें", card_sub:"हमारी टीम WhatsApp पर मिनटों में जवाब देती है",
     trip_one:"वन-वे ड्रॉप", trip_round:"राउंड ट्रिप",
     wa_tip:'मोबाइल पर हैं? <a onclick="openWADirect()" tabindex="0">यहाँ टैप करें — WhatsApp सीधे खुलेगा</a>, ब्राउज़र पॉपअप नहीं।',
+    label_pickup:"पिकअप स्थान", ph_pickup:"शहर / स्थान",
+    label_drop:"ड्रॉप स्थान", ph_drop:"शहर / स्थान",
+    label_date:"तारीख", label_time:"समय",
     label_phone:"आपका WhatsApp नंबर", ph_placeholder:"98765 43210",
     consent_text:"राइड बुकिंग के लिए <strong>DROPeZi</strong> को इस नंबर पर संपर्क करने की अनुमति देता/देती हूँ। कॉलबैक के लिए सहमत हूँ।",
     error_invalid:"कृपया वैध 10 अंकों का भारतीय नंबर दर्ज करें।", error_consent:"सहमति बॉक्स टिक करें।",
@@ -488,6 +529,9 @@ const T = {
     card_title:"ತಕ್ಷಣ ರೈಡ್ ಬುಕ್ ಮಾಡಿ", card_sub:"ನಮ್ಮ ತಂಡ WhatsApp ನಲ್ಲಿ ನಿಮಿಷಗಳಲ್ಲಿ ಉತ್ತರಿಸುತ್ತದೆ",
     trip_one:"ಒಂದೇ ದಿಕ್ಕು", trip_round:"ರೌಂಡ್ ಟ್ರಿಪ್",
     wa_tip:'ಮೊಬೈಲ್‌ನಲ್ಲಿ ಇದ್ದೀರಾ? <a onclick="openWADirect()" tabindex="0">ಇಲ್ಲಿ ಟ್ಯಾಪ್ ಮಾಡಿ WhatsApp ನೇರವಾಗಿ ತೆರೆಯಿರಿ</a>.',
+    label_pickup:"ಪಿಕ್‌ಅಪ್ ಸ್ಥಳ", ph_pickup:"ನಗರ / ಸ್ಥಳ",
+    label_drop:"ಡ್ರಾಪ್ ಸ್ಥಳ", ph_drop:"ನಗರ / ಸ್ಥಳ",
+    label_date:"ದಿನಾಂಕ", label_time:"ಸಮಯ",
     label_phone:"ನಿಮ್ಮ WhatsApp ಸಂಖ್ಯೆ", ph_placeholder:"98765 43210",
     consent_text:"ರೈಡ್ ಬುಕಿಂಗ್‌ಗಾಗಿ <strong>DROPeZi</strong> ನನ್ನನ್ನು ಸಂಪರ್ಕಿಸಲು ಅನುಮತಿ ನೀಡುತ್ತೇನೆ.",
     error_invalid:"ಸರಿಯಾದ 10 ಅಂಕಿಯ ಸಂಖ್ಯೆ ನಮೂದಿಸಿ.", error_consent:"ಒಪ್ಪಿಗೆ ಪೆಟ್ಟಿಗೆ ಟಿಕ್ ಮಾಡಿ.",
@@ -523,6 +567,9 @@ const T = {
     card_title:"ഉടൻ റൈഡ് ബുക്ക് ചെയ്യൂ", card_sub:"ഞങ്ങളുടെ ടീം WhatsApp-ൽ മിനിറ്റുകളിൽ മറുപടി നൽകും",
     trip_one:"ഒറ്റ ദിശ", trip_round:"റൗണ്ട് ട്രിപ്പ്",
     wa_tip:'മൊബൈലിലാണോ? <a onclick="openWADirect()" tabindex="0">ഇവിടെ ടാപ്പ് ചെയ്ത് WhatsApp നേരിട്ട് തുറക്കൂ</a> — popup ഇല്ലാതെ.',
+    label_pickup:"പിക്കപ്പ് സ്ഥലം", ph_pickup:"നഗരം / സ്ഥലം",
+    label_drop:"ഡ്രോപ്പ് സ്ഥലം", ph_drop:"നഗരം / സ്ഥലം",
+    label_date:"തീയതി", label_time:"സമയം",
     label_phone:"നിങ്ങളുടെ WhatsApp നമ്പർ", ph_placeholder:"98765 43210",
     consent_text:"റൈഡ് ബുക്കിംഗിനായി <strong>DROPeZi</strong> ഈ നമ്പറിൽ ബന്ധപ്പെടാൻ ഞാൻ അനുമതി നൽകുന്നു. കോൾബാക്കിന് സമ്മതം.",
     error_invalid:"ദയവായി 10 അക്ക ഇന്ത്യൻ നമ്പർ നൽകൂ.", error_consent:"സമ്മത ബോക്സ് ടിക്ക് ചെയ്യൂ.",
@@ -589,19 +636,36 @@ function showError(key) {
 }
 function clearError() { document.getElementById('error-msg').classList.remove('visible'); }
 
+/* ══ DATE / TIME HELPERS ══ */
+function formatDate(dateStr) {
+  if (!dateStr) return '';
+  const d = new Date(dateStr + 'T00:00:00');
+  return d.toLocaleDateString('en-IN', {day:'2-digit', month:'short', year:'numeric'});
+}
+function formatTime(timeStr) {
+  if (!timeStr) return '';
+  const [h, m] = timeStr.split(':');
+  const hr = parseInt(h, 10);
+  return `${hr % 12 || 12}:${m} ${hr >= 12 ? 'PM' : 'AM'}`;
+}
+
 /* ══ BUILD WA MESSAGE ══ */
-function buildMsg(phone) {
+function buildMsg(phone, pickup, drop, travelDate, travelTime) {
   const fmt = '+91 ' + phone.replace(/(\d{5})(\d{5})/, '$1 $2');
   const tripLabel = tripType === 'round'
     ? (T[lang].trip_label_round || 'Round Trip')
     : (T[lang].trip_label_one  || 'One-Way Drop');
+  const pu = pickup || '—';
+  const dr = drop   || '—';
+  const dt = formatDate(travelDate)  || '—';
+  const tm = formatTime(travelTime)  || '—';
 
   const msgs = {
-    ta: `வணக்கம் DROPeZi! 🚕\nயாத்திரை வகை: ${tripLabel}\nஎன் WhatsApp: ${fmt}\n\nவிவரங்கள்:\n📍 ஏறும் இடம்: [நகரம்/இடம்]\n📍 இறங்கும் இடம்: [நகரம்/இடம்]\n📅 தேதி & நேரம்: [தேதி, நேரம்]\n🚗 வாகனம்: [சேடான் / SUV / பிரீமியம்]\n\nகட்டணம் மற்றும் ஆள் அனுப்புவீர்களா? நன்றி!`,
-    en: `Hello DROPeZi! 🚕\nTrip Type: ${tripLabel}\nMy WhatsApp: ${fmt}\n\nDetails:\n📍 Pickup: [City / Location]\n📍 Drop: [City / Location]\n📅 Date & Time: [Date, Time]\n🚗 Vehicle: [Sedan / SUV / Premium]\n\nPlease share the fare quote. Thank you!`,
-    hi: `नमस्ते DROPeZi! 🚕\nयात्रा प्रकार: ${tripLabel}\nमेरा WhatsApp: ${fmt}\n\nविवरण:\n📍 पिकअप: [शहर / स्थान]\n📍 ड्रॉप: [शहर / स्थान]\n📅 तारीख & समय: [तारीख, समय]\n🚗 वाहन: [सेडान / SUV / प्रीमियम]\n\nकृपया किराया बताएं। धन्यवाद!`,
-    kn: `ನಮಸ್ಕಾರ DROPeZi! 🚕\nಪ್ರಯಾಣ ವಿಧ: ${tripLabel}\nನನ್ನ WhatsApp: ${fmt}\n\nವಿವರಗಳು:\n📍 ಪಿಕ್‌ಅಪ್: [ನಗರ / ಸ್ಥಳ]\n📍 ಡ್ರಾಪ್: [ನಗರ / ಸ್ಥಳ]\n📅 ದಿನಾಂಕ & ಸಮಯ: [ದಿನಾಂಕ, ಸಮಯ]\n🚗 ವಾಹನ: [ಸೆಡಾನ್ / SUV / ಪ್ರೀಮಿಯಂ]\n\nದಯವಿಟ್ಟು ದರ ತಿಳಿಸಿ. ಧನ್ಯವಾದ!`,
-    ml: `ഹലോ DROPeZi! 🚕\nയാത്ര തരം: ${tripLabel}\nഎന്റെ WhatsApp: ${fmt}\n\nവിശദാംശങ്ങൾ:\n📍 പിക്കപ്പ്: [നഗരം / സ്ഥലം]\n📍 ഡ്രോപ്പ്: [നഗരം / സ്ഥലം]\n📅 തീയതി & സമയം: [തീയതി, സമയം]\n🚗 വാഹനം: [സെഡാൻ / SUV / പ്രീമിയം]\n\nദയവായി നിരക്ക് അറിയിക്കൂ. നന്ദി!`
+    ta: `வணக்கம் DROPeZi! 🚕\nயாத்திரை வகை: ${tripLabel}\nஎன் WhatsApp: ${fmt}\n\n📍 ஏறும் இடம்: ${pu}\n📍 இறங்கும் இடம்: ${dr}\n📅 தேதி & நேரம்: ${dt}, ${tm}\n🚗 வாகனம்: [சேடான் / SUV / பிரீமியம்]\n\nகட்டணம் மற்றும் ஆள் அனுப்புவீர்களா? நன்றி!`,
+    en: `Hello DROPeZi! 🚕\nTrip Type: ${tripLabel}\nMy WhatsApp: ${fmt}\n\n📍 Pickup: ${pu}\n📍 Drop: ${dr}\n📅 Date & Time: ${dt}, ${tm}\n🚗 Vehicle: [Sedan / SUV / Premium]\n\nPlease share the fare quote. Thank you!`,
+    hi: `नमस्ते DROPeZi! 🚕\nयात्रा प्रकार: ${tripLabel}\nमेरा WhatsApp: ${fmt}\n\n📍 पिकअप: ${pu}\n📍 ड्रॉप: ${dr}\n📅 तारीख & समय: ${dt}, ${tm}\n🚗 वाहन: [सेडान / SUV / प्रीमियम]\n\nकृपया किराया बताएं। धन्यवाद!`,
+    kn: `ನಮಸ್ಕಾರ DROPeZi! 🚕\nಪ್ರಯಾಣ ವಿಧ: ${tripLabel}\nನನ್ನ WhatsApp: ${fmt}\n\n📍 ಪಿಕ್‍ಅಪ್: ${pu}\n📍 ಡ್ರಾಪ್: ${dr}\n📅 ದಿನಾಂಕ & ಸಮಯ: ${dt}, ${tm}\n🚗 ವಾಹನ: [ಸೆಡಾನ್ / SUV / ಪ್ರೀಮಿಯಂ]\n\nದಯವಿಟ್ಟು ದರ ತಿಳಿಸಿ. ಧನ್ಯವಾದ!`,
+    ml: `ഹലോ DROPeZi! 🚕\nയാത്ര തരം: ${tripLabel}\nഎന്റെ WhatsApp: ${fmt}\n\n📍 പിക്കപ്പ്: ${pu}\n📍 ഡ്രോപ്പ്: ${dr}\n📅 തീയതി & സമയം: ${dt}, ${tm}\n🚗 വാഹനം: [സെഡാൻ / SUV / പ്രീമിയം]\n\nദയവായി നിരക്ക് അറിയിക്കൂ. നന്ദി!`
   };
   return msgs[lang] || msgs.en;
 }
@@ -613,9 +677,14 @@ function handleGetQuote() {
   if (!validatePhone(cleaned)) { showError('error_invalid'); document.getElementById('phone-input').focus(); return; }
   if (!document.getElementById('consent-check').checked) { showError('error_consent'); return; }
 
+  const pickup     = document.getElementById('pickup-input').value.trim();
+  const drop       = document.getElementById('drop-input').value.trim();
+  const travelDate = document.getElementById('travel-date').value;
+  const travelTime = document.getElementById('travel-time').value;
+
   const fmt = '+91 ' + cleaned.replace(/(\d{5})(\d{5})/, '$1 $2');
   const t = T[lang];
-  pendingUrl = `https://wa.me/${CARE}?text=${encodeURIComponent(buildMsg(cleaned))}`;
+  pendingUrl = `https://wa.me/${CARE}?text=${encodeURIComponent(buildMsg(cleaned, pickup, drop, travelDate, travelTime))}`;
 
   document.getElementById('success-num').textContent = fmt;
   document.getElementById('success-trip').textContent = tripType === 'round' ? t.trip_label_round : t.trip_label_one;
@@ -658,8 +727,17 @@ document.getElementById('success-overlay').addEventListener('click', function(e)
   if (e.target === this) closeOverlay();
 });
 
-/* ══ INIT: Tamil default ══ */
+/* ══ INIT: Tamil default + date/time defaults ══ */
 setLang('ta');
+(function initDateTime() {
+  const now = new Date();
+  const pad = n => String(n).padStart(2, '0');
+  const today = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}`;
+  document.getElementById('travel-date').value = today;
+  document.getElementById('travel-date').min = today;
+  now.setMinutes(now.getMinutes() + 30);
+  document.getElementById('travel-time').value = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
+})();
 </script>
 </body>
 </html>
