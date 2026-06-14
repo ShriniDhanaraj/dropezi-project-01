@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DROPeZi – ஒரு திசை டிராப் டாக்சி | South India Drop Taxi</title>
+<meta name="description" content="DROPeZi – One-Way Drop Taxi & Round Trips across South India. Endless Reach & Exceptional Care. Book instantly on WhatsApp. No hidden charges.">
+<meta name="keywords" content="one way taxi, drop taxi, tamil nadu taxi, chennai taxi, coimbatore taxi, madurai taxi, dropezi">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+Tamil:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Kannada:wght@400;600;700&family=Noto+Sans+Malayalam:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue:#1e3a8a; --blue-mid:#2563eb; --blue-light:#dbeafe; --blue-pale:#eff6ff;
+  --orange:#ea580c; --orange-mid:#f97316; --orange-light:#fff7ed; --orange-pale:#ffedd5;
+  --grad:linear-gradient(110deg,#1a2f7a 0%,#2c50c8 42%,#c45008 100%);
+  --grad-cta:linear-gradient(135deg,#ea580c,#f97316);
+  --grad-soft:linear-gradient(135deg,#eff6ff 0%,#fff7ed 100%);
+  --text:#0f172a; --text-muted:#475569; --text-light:#94a3b8;
+  --border:#e2e8f0; --white:#ffffff; --bg:#f5f8ff;
+  --radius:14px; --radius-lg:22px;
+  --shadow:0 4px 24px rgba(30,58,138,.10);
+  --wa-green:#25D366;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Noto Sans Tamil','Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6;}
+
+/* ── NAV ── */
+nav{background:var(--white);border-bottom:1px solid var(--border);padding:0 5%;display:flex;align-items:center;justify-content:space-between;height:70px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(30,58,138,.07);}
+.logo-wrap{display:flex;align-items:center;gap:0;}
+.logo-wrap img{height:54px;width:auto;object-fit:contain;display:block;}
+.logo-tagline-nav{font-size:9px;font-family:'Inter',sans-serif;font-weight:700;color:var(--text-muted);letter-spacing:.8px;text-transform:uppercase;display:none;}
+.lang-switcher{display:flex;gap:4px;flex-wrap:wrap;}
+.lang-btn{background:none;border:1.5px solid var(--border);border-radius:20px;padding:4px 11px;font-size:.76rem;cursor:pointer;color:var(--text-muted);transition:all .2s;font-weight:700;}
+.lang-btn:hover,.lang-btn.active{background:var(--blue-pale);border-color:var(--blue-mid);color:var(--blue);}
+
+/* ── HERO ── */
+.hero{background:var(--grad);color:white;padding:64px 5% 90px;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M0 0h40v40H0zm40 40h40v40H40z'/%3E%3C/g%3E%3C/svg%3E");pointer-events:none;}
+.hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:5px;background:repeating-linear-gradient(90deg,#f97316 0,#f97316 26px,transparent 26px,transparent 46px);opacity:.7;}
+
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.28);border-radius:30px;padding:6px 18px;font-size:.81rem;margin-bottom:20px;backdrop-filter:blur(6px);font-weight:600;}
+.badge-dot{width:8px;height:8px;background:#f97316;border-radius:50%;animation:blink 1.5s ease-in-out infinite;flex-shrink:0;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+.hero-tagline{font-size:.78rem;opacity:.72;letter-spacing:2.5px;font-weight:700;text-transform:uppercase;margin-bottom:10px;font-family:'Inter',sans-serif;}
+.hero h1{font-size:clamp(1.85rem,5vw,3rem);font-weight:800;line-height:1.15;margin-bottom:14px;letter-spacing:-.5px;}
+.hero h1 .accent{color:#fdba74;}
+.hero p.sub{font-size:1rem;opacity:.88;max-width:500px;margin:0 auto 32px;}
+
+/* ── 2-CLICK PROMO BANNER ── */
+.two-click-bar{background:rgba(255,255,255,.11);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.2);border-radius:16px;max-width:560px;margin:0 auto 30px;padding:15px 20px;}
+.tc-headline{font-size:1rem;font-weight:800;color:#fff;margin-bottom:10px;letter-spacing:-.2px;}
+.tc-headline span{color:#fdba74;}
+.tc-steps{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
+.tc-step{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.25);border-radius:30px;padding:5px 13px;font-size:.77rem;font-weight:600;color:rgba(255,255,255,.93);display:flex;align-items:center;gap:6px;}
+.tc-num{background:#f97316;color:white;border-radius:50%;width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:800;flex-shrink:0;}
+
+/* ── QUOTE CARD ── */
+.quote-card{background:var(--white);border-radius:var(--radius-lg);padding:34px 30px 28px;max-width:480px;margin:0 auto;box-shadow:0 12px 56px rgba(0,0,0,.2);position:relative;z-index:1;}
+.card-header{display:flex;align-items:center;gap:10px;margin-bottom:5px;}
+.card-icon{width:38px;height:38px;background:var(--grad);border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+.quote-card h2{font-size:1.12rem;font-weight:800;color:var(--text);}
+.quote-card .subtitle{font-size:.82rem;color:var(--text-muted);margin-bottom:18px;padding-left:48px;}
+
+/* ── TRIP TYPE TOGGLE ── */
+.trip-toggle{display:flex;background:#f1f5f9;border-radius:10px;padding:3px;margin-bottom:18px;gap:3px;}
+.trip-btn{flex:1;padding:9px 6px;border:none;border-radius:8px;font-size:.81rem;font-weight:700;cursor:pointer;transition:all .2s;color:var(--text-muted);background:transparent;line-height:1.2;}
+.trip-btn.active{background:var(--white);color:var(--blue);box-shadow:0 2px 8px rgba(0,0,0,.1);}
+.trip-btn .tb-icon{display:block;font-size:1.05rem;margin-bottom:2px;}
+
+.field-label{font-size:.74rem;font-weight:700;color:var(--text-muted);margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:.6px;}
+
+.phone-input-wrap{display:flex;border:2px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:border-color .2s,box-shadow .2s;margin-bottom:14px;}
+.phone-input-wrap:focus-within{border-color:var(--blue-mid);box-shadow:0 0 0 4px rgba(37,99,235,.1);}
+.phone-prefix{background:var(--blue-pale);padding:0 14px;display:flex;align-items:center;gap:6px;font-weight:700;color:var(--blue);font-size:.94rem;border-right:2px solid var(--border);white-space:nowrap;flex-shrink:0;font-family:'Inter',sans-serif;}
+.flag{font-size:1.2rem;}
+#phone-input{border:none;outline:none;padding:13px 14px;font-size:1.05rem;width:100%;font-family:'Inter',sans-serif;color:var(--text);background:transparent;letter-spacing:1.5px;}
+#phone-input::placeholder{color:#c0c8d8;letter-spacing:0;font-family:'Inter',sans-serif;}
+
+/* ── WA TIP BOX (skip popup) ── */
+.wa-tip{background:#e8f8ef;border:1.5px solid #a7f0c4;border-radius:10px;padding:10px 13px;margin-bottom:13px;font-size:.77rem;color:#14532d;display:flex;align-items:flex-start;gap:8px;}
+.wa-tip-icon{font-size:.95rem;flex-shrink:0;margin-top:1px;}
+.wa-tip a{color:#166534;font-weight:700;text-decoration:underline;cursor:pointer;}
+
+/* ── CONSENT ── */
+.consent-wrap{background:#fffbf0;border:1.5px solid #fcd34d;border-radius:10px;padding:10px 13px;margin-bottom:15px;display:flex;gap:10px;align-items:flex-start;}
+.consent-wrap input[type=checkbox]{margin-top:3px;width:17px;height:17px;accent-color:var(--orange);flex-shrink:0;cursor:pointer;}
+.consent-label{font-size:.79rem;color:#6b4c00;line-height:1.5;cursor:pointer;}
+.consent-label strong{color:#3d2900;}
+
+.error-msg{color:#dc2626;font-size:.79rem;margin-top:-9px;margin-bottom:10px;display:none;padding-left:2px;}
+.error-msg.visible{display:block;}
+
+/* ── CTA BUTTON ── */
+.cta-btn{width:100%;background:var(--wa-green);color:white;border:none;border-radius:var(--radius);padding:15px;font-size:1rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:background .2s,transform .15s,box-shadow .2s;box-shadow:0 4px 18px rgba(37,211,102,.32);animation:pulse-cta 2.5s ease-in-out infinite;}
+.cta-btn:hover{background:#1db954;box-shadow:0 6px 24px rgba(37,211,102,.5);transform:translateY(-1px);animation:none;}
+.cta-btn:active{transform:scale(.98);animation:none;}
+@keyframes pulse-cta{0%,100%{box-shadow:0 4px 18px rgba(37,211,102,.32)}50%{box-shadow:0 4px 28px rgba(37,211,102,.6)}}
+.wa-icon{width:21px;height:21px;fill:white;flex-shrink:0;}
+.privacy-note{text-align:center;font-size:.73rem;color:var(--text-light);margin-top:11px;display:flex;align-items:center;justify-content:center;gap:4px;font-family:'Inter',sans-serif;}
+
+/* ── ROUTE BAND ── */
+.route-band{background:var(--grad);padding:16px 5%;display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;color:white;font-size:.85rem;font-weight:600;}
+.route-pill{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:20px;padding:4px 14px;font-size:.78rem;}
+.route-arrow{opacity:.6;font-size:1rem;}
+
+/* ── TRUST STRIP ── */
+.trust-strip{background:var(--grad-soft);border-top:1px solid #e0e7ff;border-bottom:1px solid #fde8d0;padding:26px 5%;display:flex;align-items:center;justify-content:center;gap:40px;flex-wrap:wrap;}
+.trust-item{text-align:center;}
+.trust-num{font-size:1.75rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:4px;font-family:'Inter',sans-serif;}
+.trust-label{font-size:.73rem;color:var(--text-muted);font-weight:700;text-transform:uppercase;letter-spacing:.8px;}
+
+/* ── FEATURES ── */
+.features{padding:60px 5%;max-width:1060px;margin:0 auto;}
+.section-label{text-align:center;font-size:.73rem;font-weight:800;letter-spacing:2.5px;color:var(--orange);text-transform:uppercase;margin-bottom:10px;}
+.section-title{text-align:center;font-size:clamp(1.4rem,3vw,2rem);font-weight:800;color:var(--text);margin-bottom:40px;letter-spacing:-.3px;}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;}
+.feature-card{background:var(--white);border-radius:var(--radius);padding:24px 20px;border:1.5px solid var(--border);transition:box-shadow .2s,transform .2s,border-color .2s;}
+.feature-card:hover{box-shadow:var(--shadow);transform:translateY(-3px);border-color:#bfdbfe;}
+.fi{width:46px;height:46px;background:var(--grad-soft);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.45rem;margin-bottom:14px;}
+.feature-card h3{font-size:.94rem;font-weight:700;margin-bottom:5px;}
+.feature-card p{font-size:.82rem;color:var(--text-muted);line-height:1.55;}
+
+/* ── HOW IT WORKS ── */
+.how{background:var(--white);padding:60px 5%;}
+.steps{max-width:700px;margin:0 auto;display:flex;flex-direction:column;}
+.step{display:flex;gap:20px;padding-bottom:28px;}
+.step:last-child{padding-bottom:0;}
+.step-left{display:flex;flex-direction:column;align-items:center;flex-shrink:0;}
+.step-num{width:44px;height:44px;border-radius:50%;background:var(--grad);color:white;font-weight:800;font-size:1rem;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;}
+.step-line{width:2px;flex:1;background:var(--blue-light);margin-top:6px;min-height:20px;}
+.step-content{padding-top:9px;}
+.step-content h3{font-size:.96rem;font-weight:700;margin-bottom:4px;}
+.step-content p{font-size:.84rem;color:var(--text-muted);}
+.step-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+.step-tag{background:var(--blue-pale);color:var(--blue);font-size:.73rem;font-weight:600;padding:3px 10px;border-radius:20px;border:1px solid #bfdbfe;font-family:'Inter',sans-serif;}
+.step-tag.orange{background:var(--orange-pale);color:var(--orange);border-color:#fed7aa;}
+
+/* ── FOOTER ── */
+footer{background:#0f172a;color:rgba(255,255,255,.75);padding:36px 5%;text-align:center;}
+.footer-logo-wrap img{height:46px;object-fit:contain;margin-bottom:10px;opacity:.9;}
+.footer-tagline{font-size:.78rem;color:rgba(255,255,255,.5);margin-bottom:5px;font-family:'Inter',sans-serif;}
+.footer-copy{font-size:.72rem;color:rgba(255,255,255,.33);margin-top:10px;font-family:'Inter',sans-serif;}
+footer a{color:#fdba74;text-decoration:none;}
+
+/* ── FLOATING WA BUTTON ── */
+.float-wa{position:fixed;bottom:22px;right:22px;background:var(--wa-green);color:white;border:none;border-radius:50px;padding:13px 20px;font-size:.87rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 4px 22px rgba(37,211,102,.45);z-index:200;transition:transform .2s;animation:pwa 3s ease-in-out infinite;}
+.float-wa:hover{transform:scale(1.05);animation:none;}
+@keyframes pwa{0%,100%{box-shadow:0 4px 22px rgba(37,211,102,.45)}50%{box-shadow:0 4px 38px rgba(37,211,102,.7)}}
+
+/* ── SUCCESS OVERLAY ── */
+.success-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:500;align-items:center;justify-content:center;padding:20px;}
+.success-overlay.show{display:flex;}
+.success-box{background:white;border-radius:var(--radius-lg);padding:34px 28px;max-width:380px;width:100%;text-align:center;animation:pop .3s ease;}
+@keyframes pop{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
+.sicon{font-size:3rem;margin-bottom:12px;}
+.success-box h3{font-size:1.18rem;font-weight:800;margin-bottom:8px;color:var(--blue);}
+.success-box p{font-size:.86rem;color:var(--text-muted);margin-bottom:16px;line-height:1.6;}
+.num-pill{background:var(--blue-pale);color:var(--blue);font-weight:700;font-size:.98rem;padding:7px 20px;border-radius:30px;display:inline-block;margin-bottom:8px;border:1.5px solid #bfdbfe;font-family:'Inter',sans-serif;}
+.trip-pill{background:var(--orange-pale);color:var(--orange);font-weight:700;font-size:.78rem;padding:4px 14px;border-radius:20px;display:inline-block;margin-bottom:18px;border:1px solid #fed7aa;}
+.success-wa-btn{width:100%;padding:14px;background:var(--wa-green);color:white;border:none;border-radius:var(--radius);font-size:.94rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .2s;}
+.success-wa-btn:hover{background:#1db954;}
+.success-cancel{background:none;border:none;color:var(--text-muted);font-size:.8rem;cursor:pointer;margin-top:12px;text-decoration:underline;display:block;width:100%;padding:4px;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:560px){
+  .quote-card{padding:24px 16px 20px;}
+  .hero{padding:48px 4% 72px;}
+  .trust-strip{gap:22px;}
+  .float-wa .float-txt{display:none;}
+  .float-wa{padding:13px 14px;border-radius:50%;}
+  nav{padding:0 4%;}
+  .logo-wrap img{height:46px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav>
+  <div class="logo-wrap">
+    <img id="nav-logo" src="logo.webp" alt="DROPeZi – One-Way Drop Taxi" onerror="this.src='logo.jpg'" />
+  </div>
+  <div class="lang-switcher" role="group" aria-label="Language selector">
+    <button class="lang-btn active" data-lang="ta" onclick="setLang('ta')">தமிழ்</button>
+    <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" data-lang="hi" onclick="setLang('hi')">हिंदी</button>
+    <button class="lang-btn" data-lang="kn" onclick="setLang('kn')">ಕನ್ನಡ</button>
+    <button class="lang-btn" data-lang="ml" onclick="setLang('ml')">മലയ്</button>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="hero-badge"><span class="badge-dot"></span><span data-i18n="badge">ஒரு திசை டிராப் & ரவுண்ட் டிரிப் — மறைமுக கட்டணம் இல்லை</span></div>
+  <p class="hero-tagline">Endless Reach &amp; Exceptional Care — TRUSTED</p>
+  <h1><span data-i18n="hero_h1">உங்கள் பயணம் தொடங்குகிறது</span> <span class="accent" data-i18n="hero_span">2 கிளிக்கில்.</span></h1>
+  <p class="sub" data-i18n="hero_p">ஒரு திசை அல்லது ரவுண்ட் டிரிப் — வசதியான, வெளிப்படையான, சரியான நேரத்தில் தென் இந்தியா முழுவதும்.</p>
+
+  <!-- 2-CLICK PROMO BANNER -->
+  <div class="two-click-bar" role="note" aria-label="Quick booking steps">
+    <div class="tc-headline" data-i18n="tc_head">வெறும் <span>2 தகவல்கள்</span> — உங்கள் பயணம் ஆரம்பம் 🚕</div>
+    <div class="tc-steps">
+      <div class="tc-step"><span class="tc-num">1</span><span data-i18n="tc1">📍 ஏறும் → இறங்கும் இடம் + தேதி &amp; நேரம்</span></div>
+      <div class="tc-step"><span class="tc-num">2</span><span data-i18n="tc2">🚗 வாகனம் தேர்வு செய்யுங்கள்</span></div>
+    </div>
+  </div>
+
+  <!-- BOOKING CARD -->
+  <div class="quote-card" role="main">
+    <div class="card-header">
+      <div class="card-icon" aria-hidden="true">🚕</div>
+      <h2 data-i18n="card_title">உடனடியாக பயணம் முன்பதிவு செய்யுங்கள்</h2>
+    </div>
+    <p class="subtitle" data-i18n="card_sub">எங்கள் குழு WhatsApp-ல் நிமிடங்களில் பதில் அளிக்கும்</p>
+
+    <!-- TRIP TYPE TOGGLE -->
+    <div class="trip-toggle" role="group" aria-label="Trip type">
+      <button class="trip-btn active" id="btn-oneway" onclick="setTrip('oneway')">
+        <span class="tb-icon">🛣️</span><span data-i18n="trip_one">ஒரு திசை</span>
+      </button>
+      <button class="trip-btn" id="btn-round" onclick="setTrip('round')">
+        <span class="tb-icon">🔄</span><span data-i18n="trip_round">ரவுண்ட் டிரிப்</span>
+      </button>
+    </div>
+
+    <!-- WA TIP: skip popup -->
+    <div class="wa-tip" role="note">
+      <span class="wa-tip-icon">💡</span>
+      <span data-i18n="wa_tip">மொபைலில் உள்ளீர்களா? <a onclick="openWADirect()" tabindex="0">இங்கே தட்டி நேரடியாக WhatsApp திறக்கலாம்</a> — Browser popup இல்லாமல்.</span>
+    </div>
+
+    <label class="field-label" for="phone-input" data-i18n="label_phone">உங்கள் WhatsApp எண்</label>
+    <div class="phone-input-wrap" role="group" aria-label="Phone number">
+      <div class="phone-prefix"><span class="flag">🇮🇳</span><span>+91</span></div>
+      <input type="tel" id="phone-input" maxlength="10" pattern="[0-9]{10}" inputmode="numeric"
+        autocomplete="tel-national" placeholder="98765 43210"
+        aria-label="10-digit Indian WhatsApp number" aria-required="true" />
+    </div>
+    <div class="error-msg" id="error-msg" role="alert" aria-live="polite" data-i18n="error_invalid">
+      சரியான 10 இலக்க எண்ணை உள்ளிடுக.
+    </div>
+
+    <div class="consent-wrap">
+      <input type="checkbox" id="consent-check" aria-required="true" />
+      <label class="consent-label" for="consent-check">
+        <span data-i18n="consent_text">பயண மேற்கோள் மற்றும் முன்பதிவுக்காக <strong>DROPeZi</strong> என்னை தொடர்பு கொள்ள அனுமதிக்கிறேன். எனக்கு திரும்ப அழைப்பு வழங்கலாம்.</span>
+      </label>
+    </div>
+
+    <button class="cta-btn" id="get-quote-btn" onclick="handleGetQuote()" aria-label="Book ride on WhatsApp">
+      <svg class="wa-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+      </svg>
+      <span data-i18n="cta_btn">WhatsApp-ல் பயணம் முன்பதிவு செய்க</span>
+    </button>
+    <p class="privacy-note">🔒 <span data-i18n="privacy_note">உங்கள் எண் முன்பதிவுக்கு மட்டும். ஸ்பேம் இல்லை.</span></p>
+  </div>
+</section>
+
+<!-- ═══ ROUTE BAND ═══ -->
+<div class="route-band" aria-label="Popular routes">
+  <span style="font-size:.78rem;opacity:.8;" data-i18n="routes_label">பிரபல வழிகள்:</span>
+  <span class="route-pill">Chennai → Pondicherry</span><span class="route-arrow">›</span>
+  <span class="route-pill">Coimbatore → Bangalore</span><span class="route-arrow">›</span>
+  <span class="route-pill">Madurai → Chennai</span><span class="route-arrow">›</span>
+  <span class="route-pill" data-i18n="route_more">+ எந்த வழியும்</span>
+</div>
+
+<!-- ═══ TRUST STRIP ═══ -->
+<div class="trust-strip">
+  <div class="trust-item"><div class="trust-num">₹0</div><div class="trust-label" data-i18n="trust1">திரும்பும் கட்டணம்</div></div>
+  <div class="trust-item"><div class="trust-num">24/7</div><div class="trust-label" data-i18n="trust2">பயண ஆதரவு</div></div>
+  <div class="trust-item"><div class="trust-num">5★</div><div class="trust-label" data-i18n="trust3">மதிப்பீடு</div></div>
+  <div class="trust-item"><div class="trust-num">500+</div><div class="trust-label" data-i18n="trust4">வழிகள்</div></div>
+</div>
+
+<!-- ═══ FEATURES ═══ -->
+<section class="features" aria-labelledby="feat-title">
+  <p class="section-label" data-i18n="feat_eyebrow">ஏன் DROPeZi</p>
+  <h2 class="section-title" id="feat-title" data-i18n="feat_title">உங்கள் பயணம், சரியாக</h2>
+  <div class="features-grid">
+    <div class="feature-card"><div class="fi">🛣️</div><h3 data-i18n="feat1_h">ஒரு திசை மட்டும்</h3><p data-i18n="feat1_p">நீங்கள் பயணிக்கும் தூரத்திற்கு மட்டும் பணம். ஒரு நாளும் திரும்பும் கட்டணம் இல்லை.</p></div>
+    <div class="feature-card"><div class="fi">🔄</div><h3 data-i18n="feat2_h">ரவுண்ட் டிரிப்பும் உண்டு</h3><p data-i18n="feat2_p">திரும்பவும் வர திட்டமிட்டால் — இரு பக்கமும் சிறந்த விலையில் ஏற்பாடு செய்கிறோம்.</p></div>
+    <div class="feature-card"><div class="fi">💬</div><h3 data-i18n="feat3_h">உடனடி WhatsApp முன்பதிவு</h3><p data-i18n="feat3_p">நேரடியாக அரட்டை அடியுங்கள். நிமிடங்களில் கட்டணம் உறுதி — எந்த ஆப்பும் தேவையில்லை.</p></div>
+    <div class="feature-card"><div class="fi">🚗</div><h3 data-i18n="feat4_h">பல வாகன வகைகள்</h3><p data-i18n="feat4_p">சேடான், SUV, பிரீமியம் — உங்கள் குழு மற்றும் பட்ஜெட்டிற்கு ஏற்ப தேர்வு செய்யுங்கள்.</p></div>
+    <div class="feature-card"><div class="fi">💰</div><h3 data-i18n="feat5_h">வெளிப்படையான கட்டணம்</h3><p data-i18n="feat5_p">WhatsApp-ல் முன்கூட்டியே விலை ஒப்புக்கொள்ளப்படும். இறங்கும் இடத்தில் எந்த ஆச்சரியமும் இல்லை.</p></div>
+    <div class="feature-card"><div class="fi">🌙</div><h3 data-i18n="feat6_h">இரவு பயணங்கள்</h3><p data-i18n="feat6_p">அதிகாலை விமான நிலையம், இரவு பயணங்கள் — எப்போதும் சாலையில் தயாராக இருக்கிறோம்.</p></div>
+  </div>
+</section>
+
+<!-- ═══ HOW IT WORKS ═══ -->
+<section class="how" aria-labelledby="how-title">
+  <p class="section-label" data-i18n="how_eyebrow">எளிய முன்பதிவு</p>
+  <h2 class="section-title" id="how-title" data-i18n="how_title">பயணத்தை எவ்வாறு முன்பதிவு செய்வது</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
+      <div class="step-content">
+        <h3 data-i18n="step1_h">WhatsApp எண் உள்ளிடுக</h3>
+        <p data-i18n="step1_p">10 இலக்க இந்திய மொபைல் எண் மற்றும் சம்மதப் பெட்டியை தட்டுக.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div>
+      <div class="step-content">
+        <h3 data-i18n="step2_h">"WhatsApp-ல் பயணம் முன்பதிவு" தட்டுக</h3>
+        <p data-i18n="step2_p">முன் நிரப்பப்பட்ட செய்தியுடன் WhatsApp திறக்கும் — Send அழுத்துக.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-left"><div class="step-num">3</div><div class="step-line"></div></div>
+      <div class="step-content">
+        <h3 data-i18n="step3_h">வழி, தேதி & நேரம், வாகன வகை பகிருங்கள்</h3>
+        <p data-i18n="step3_p">ஏறும் நகரம், இறங்கும் இடம், தேதி & நேரம், விரும்பும் வாகனம் தெரிவிக்கவும்.</p>
+        <div class="step-tags">
+          <span class="step-tag">📍 Pickup &amp; Drop</span>
+          <span class="step-tag">📅 Date &amp; Time</span>
+          <span class="step-tag orange">🚗 Sedan / SUV / Premium</span>
+        </div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-left"><div class="step-num">4</div></div>
+      <div class="step-content">
+        <h3 data-i18n="step4_h">கட்டணம் பெற்று உறுதிசெய்யுங்கள்</h3>
+        <p data-i18n="step4_p">உடனடியாக கட்டணம் அனுப்புகிறோம். உறுதிசெய்தால் ஓட்டுனர் ஒதுக்கப்படுவார். பயணம் தொடங்குகிறது!</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-logo-wrap">
+    <img src="logo.webp" alt="DROPeZi" onerror="this.src='logo.jpg'" />
+  </div>
+  <p class="footer-tagline">Endless Reach &amp; Exceptional Care — TRUSTED</p>
+  <p style="font-size:.81rem;color:rgba(255,255,255,.6);" data-i18n="footer_text">தென் இந்தியா முழுவதும் ஒரு திசை & ரவுண்ட் டிரிப்</p>
+  <p class="footer-copy">© 2025 DROPeZi &nbsp;|&nbsp; <a href="https://dropezi.in">dropezi.in</a> &nbsp;|&nbsp; WhatsApp: <a href="https://wa.me/919361287432">+91 93612 87432</a></p>
+</footer>
+
+<!-- ═══ FLOATING WA BUTTON ═══ -->
+<button class="float-wa" onclick="openWADirect()" aria-label="Chat on WhatsApp now">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="white" aria-hidden="true">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
+  <span class="float-txt" data-i18n="float_btn">பயணம் முன்பதிவு</span>
+</button>
+
+<!-- ═══ SUCCESS OVERLAY (Fix A: uses location.href) ═══ -->
+<div class="success-overlay" id="success-overlay" role="dialog" aria-modal="true">
+  <div class="success-box">
+    <div class="sicon">🚕</div>
+    <h3 data-i18n="success_title">WhatsApp திறக்கிறது…</h3>
+    <p data-i18n="success_p">உங்கள் எண் குறித்துக்கொண்டோம். WhatsApp-ல் <strong>Send</strong> அழுத்துங்கள்!</p>
+    <div class="num-pill" id="success-num">+91 XXXXXXXXXX</div><br>
+    <div class="trip-pill" id="success-trip">ஒரு திசை பயணம்</div>
+    <button class="success-wa-btn" onclick="goToWhatsApp()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      <span data-i18n="success_close">WhatsApp திற ↗</span>
+    </button>
+    <button class="success-cancel" onclick="closeOverlay()" data-i18n="cancel_btn">ரத்துசெய்</button>
+  </div>
+</div>
+
+
+<script>
+const CARE = "919361287432";
+let lang = 'ta';
+let tripType = 'oneway';
+let pendingUrl = '';
+
+/* ══ TRANSLATIONS ══ */
+const T = {
+  ta:{
+    badge:"ஒரு திசை டிராப் & ரவுண்ட் டிரிப் — மறைமுக கட்டணம் இல்லை",
+    hero_h1:"உங்கள் பயணம் தொடங்குகிறது", hero_span:"2 கிளிக்கில்.",
+    hero_p:"ஒரு திசை அல்லது ரவுண்ட் டிரிப் — வசதியான, வெளிப்படையான, சரியான நேரத்தில் தென் இந்தியா முழுவதும்.",
+    tc_head:'வெறும் <span>2 தகவல்கள்</span> — உங்கள் பயணம் ஆரம்பம் 🚕',
+    tc1:"📍 ஏறும் → இறங்கும் இடம் + தேதி & நேரம்", tc2:"🚗 வாகனம் தேர்வு செய்யுங்கள்",
+    card_title:"உடனடியாக பயணம் முன்பதிவு செய்யுங்கள்", card_sub:"எங்கள் குழு WhatsApp-ல் நிமிடங்களில் பதில் அளிக்கும்",
+    trip_one:"ஒரு திசை", trip_round:"ரவுண்ட் டிரிப்",
+    wa_tip:'மொபைலில் உள்ளீர்களா? <a onclick="openWADirect()" tabindex="0">இங்கே தட்டி நேரடியாக WhatsApp திறக்கலாம்</a> — Browser popup இல்லாமல்.',
+    label_phone:"உங்கள் WhatsApp எண்", ph_placeholder:"98765 43210",
+    consent_text:"பயண மேற்கோள் மற்றும் முன்பதிவுக்காக <strong>DROPeZi</strong> என்னை தொடர்பு கொள்ள அனுமதிக்கிறேன். எனக்கு திரும்ப அழைப்பு வழங்கலாம்.",
+    error_invalid:"சரியான 10 இலக்க இந்திய எண்ணை உள்ளிடுக.", error_consent:"சம்மதப் பெட்டியை தட்டுக.",
+    cta_btn:"WhatsApp-ல் பயணம் முன்பதிவு செய்க",
+    privacy_note:"உங்கள் எண் முன்பதிவுக்கு மட்டும். ஸ்பேம் இல்லை.",
+    routes_label:"பிரபல வழிகள்:", route_more:"+ எந்த வழியும்",
+    trust1:"திரும்பும் கட்டணம்", trust2:"பயண ஆதரவு", trust3:"மதிப்பீடு", trust4:"வழிகள்",
+    feat_eyebrow:"ஏன் DROPeZi", feat_title:"உங்கள் பயணம், சரியாக",
+    feat1_h:"ஒரு திசை மட்டும்", feat1_p:"நீங்கள் பயணிக்கும் தூரத்திற்கு மட்டும் பணம். ஒரு நாளும் திரும்பும் கட்டணம் இல்லை.",
+    feat2_h:"ரவுண்ட் டிரிப்பும் உண்டு", feat2_p:"திரும்பவும் வர திட்டமிட்டால் — இரு பக்கமும் சிறந்த விலையில் ஏற்பாடு செய்கிறோம்.",
+    feat3_h:"உடனடி WhatsApp முன்பதிவு", feat3_p:"நேரடியாக அரட்டை அடியுங்கள். நிமிடங்களில் கட்டணம் உறுதி — எந்த ஆப்பும் தேவையில்லை.",
+    feat4_h:"பல வாகன வகைகள்", feat4_p:"சேடான், SUV, பிரீமியம் — உங்கள் குழு மற்றும் பட்ஜெட்டிற்கு ஏற்ப தேர்வு செய்யுங்கள்.",
+    feat5_h:"வெளிப்படையான கட்டணம்", feat5_p:"WhatsApp-ல் முன்கூட்டியே விலை ஒப்புக்கொள்ளப்படும். இறங்கும் இடத்தில் எந்த ஆச்சரியமும் இல்லை.",
+    feat6_h:"இரவு பயணங்கள்", feat6_p:"அதிகாலை விமான நிலையம், இரவு பயணங்கள் — எப்போதும் சாலையில் தயாராக இருக்கிறோம்.",
+    how_eyebrow:"எளிய முன்பதிவு", how_title:"பயணத்தை எவ்வாறு முன்பதிவு செய்வது",
+    step1_h:"WhatsApp எண் உள்ளிடுக", step1_p:"10 இலக்க இந்திய மொபைல் எண் மற்றும் சம்மதப் பெட்டியை தட்டுக.",
+    step2_h:'"WhatsApp-ல் பயணம் முன்பதிவு" தட்டுக', step2_p:"முன் நிரப்பப்பட்ட செய்தியுடன் WhatsApp திறக்கும் — Send அழுத்துக.",
+    step3_h:"வழி, தேதி & நேரம், வாகன வகை பகிருங்கள்", step3_p:"ஏறும் நகரம், இறங்கும் இடம், தேதி & நேரம், விரும்பும் வாகனம் தெரிவிக்கவும்.",
+    step4_h:"கட்டணம் பெற்று உறுதிசெய்யுங்கள்", step4_p:"உடனடியாக கட்டணம் அனுப்புகிறோம். உறுதிசெய்தால் ஓட்டுனர் ஒதுக்கப்படுவார். பயணம் தொடங்குகிறது!",
+    footer_text:"தென் இந்தியா முழுவதும் ஒரு திசை & ரவுண்ட் டிரிப்",
+    float_btn:"பயணம் முன்பதிவு",
+    success_title:"WhatsApp திறக்கிறது…",
+    success_p:"உங்கள் எண் குறித்துக்கொண்டோம். WhatsApp-ல் <strong>Send</strong> அழுத்துங்கள்!",
+    success_close:"WhatsApp திற ↗", cancel_btn:"ரத்துசெய்",
+    trip_label_one:"ஒரு திசை பயணம்", trip_label_round:"ரவுண்ட் டிரிப்"
+  },
+  en:{
+    badge:"One-Way Drop Taxi & Round Trips — No Hidden Charges",
+    hero_h1:"Your Journey Starts", hero_span:"in 2 Taps.",
+    hero_p:"One-way drop or round trip — comfortable, transparent, and on-time across South India.",
+    tc_head:'Just <span>2 details</span> away from your ride 🚕',
+    tc1:"📍 Pickup → Drop + Date & Time", tc2:"🚗 Choose Your Vehicle",
+    card_title:"Book Your Ride Instantly", card_sub:"Our team responds on WhatsApp in minutes",
+    trip_one:"One-Way Drop", trip_round:"Round Trip",
+    wa_tip:'On mobile? <a onclick="openWADirect()" tabindex="0">Tap here to open WhatsApp directly</a> — skips the browser popup.',
+    label_phone:"Your WhatsApp Number", ph_placeholder:"98765 43210",
+    consent_text:"I allow <strong>DROPeZi</strong> to contact me on this number for my ride quote and follow-up booking. I consent to a callback.",
+    error_invalid:"Please enter a valid 10-digit Indian mobile number.", error_consent:"Please tick the consent box to continue.",
+    cta_btn:"Book Ride on WhatsApp",
+    privacy_note:"Your number is only used for your booking. No spam, ever.",
+    routes_label:"Popular Routes:", route_more:"+ Any Route",
+    trust1:"Return Charge", trust2:"Ride Support", trust3:"Rated Service", trust4:"Routes Covered",
+    feat_eyebrow:"Why DROPeZi", feat_title:"Your journey, done right",
+    feat1_h:"One-Way Drop", feat1_p:"Pay only for the distance you travel. Zero return charges — ever.",
+    feat2_h:"Round Trips Too", feat2_p:"Planning to come back? We handle both legs at a great price.",
+    feat3_h:"Instant WhatsApp Booking", feat3_p:"Chat with our team directly. Fare confirmed in minutes — no app needed.",
+    feat4_h:"Multiple Vehicle Types", feat4_p:"Sedan, SUV, or Premium — choose what suits your group and budget.",
+    feat5_h:"Transparent Fare", feat5_p:"Price agreed upfront on WhatsApp. No surprises at the destination.",
+    feat6_h:"Night Rides Available", feat6_p:"Early morning airport drops, late-night travel — always ready.",
+    how_eyebrow:"Simple Booking", how_title:"How to book your ride",
+    step1_h:"Enter your WhatsApp number", step1_p:"Type your 10-digit Indian mobile number and tick the consent checkbox.",
+    step2_h:'Tap "Book Ride on WhatsApp"', step2_p:"WhatsApp opens with a pre-filled message — just hit Send.",
+    step3_h:"Share your route, date & time, and vehicle type", step3_p:"Tell us your pickup city, drop location, travel date & time, and preferred vehicle — Sedan, SUV, or Premium.",
+    step4_h:"Get your fare & confirm", step4_p:"We send your fare instantly. Confirm and your driver is assigned. Journey begins!",
+    footer_text:"One-Way Drop Taxi & Round Trips across South India",
+    float_btn:"Book a Ride",
+    success_title:"Opening WhatsApp…",
+    success_p:"We've noted your number. Just hit <strong>Send</strong> in WhatsApp — our team responds fast!",
+    success_close:"Open WhatsApp Now ↗", cancel_btn:"Cancel",
+    trip_label_one:"One-Way Drop", trip_label_round:"Round Trip"
+  },
+  hi:{
+    badge:"वन-वे ड्रॉप टैक्सी & राउंड ट्रिप — कोई छुपा शुल्क नहीं",
+    hero_h1:"आपकी यात्रा शुरू होती है", hero_span:"2 टैप में.",
+    hero_p:"वन-वे ड्रॉप या राउंड ट्रिप — आरामदेह, पारदर्शी, समय पर पूरे दक्षिण भारत में।",
+    tc_head:'सिर्फ <span>2 जानकारी</span> — आपकी यात्रा शुरू 🚕',
+    tc1:"📍 पिकअप → ड्रॉप + तारीख & समय", tc2:"🚗 वाहन चुनें",
+    card_title:"तुरंत राइड बुक करें", card_sub:"हमारी टीम WhatsApp पर मिनटों में जवाब देती है",
+    trip_one:"वन-वे ड्रॉप", trip_round:"राउंड ट्रिप",
+    wa_tip:'मोबाइल पर हैं? <a onclick="openWADirect()" tabindex="0">यहाँ टैप करें — WhatsApp सीधे खुलेगा</a>, ब्राउज़र पॉपअप नहीं।',
+    label_phone:"आपका WhatsApp नंबर", ph_placeholder:"98765 43210",
+    consent_text:"राइड बुकिंग के लिए <strong>DROPeZi</strong> को इस नंबर पर संपर्क करने की अनुमति देता/देती हूँ। कॉलबैक के लिए सहमत हूँ।",
+    error_invalid:"कृपया वैध 10 अंकों का भारतीय नंबर दर्ज करें।", error_consent:"सहमति बॉक्स टिक करें।",
+    cta_btn:"WhatsApp पर राइड बुक करें",
+    privacy_note:"आपका नंबर केवल बुकिंग के लिए। कोई स्पैम नहीं।",
+    routes_label:"लोकप्रिय रूट:", route_more:"+ कोई भी रूट",
+    trust1:"वापसी शुल्क", trust2:"राइड सपोर्ट", trust3:"रेटेड सेवा", trust4:"रूट कवर",
+    feat_eyebrow:"DROPeZi क्यों", feat_title:"आपकी यात्रा, सही तरीके से",
+    feat1_h:"वन-वे ड्रॉप", feat1_p:"केवल उतनी दूरी का भुगतान। वापसी शुल्क शून्य।",
+    feat2_h:"राउंड ट्रिप भी", feat2_p:"वापस आने की योजना? दोनों तरफ बेहतरीन कीमत पर।",
+    feat3_h:"तुरंत WhatsApp बुकिंग", feat3_p:"सीधे चैट करें। मिनटों में किराया कन्फर्म।",
+    feat4_h:"कई वाहन विकल्प", feat4_p:"सेडान, SUV, प्रीमियम — अपने बजट के अनुसार चुनें।",
+    feat5_h:"पारदर्शी किराया", feat5_p:"WhatsApp पर पहले से किराया तय। कोई छुपाव नहीं।",
+    feat6_h:"रात की यात्रा उपलब्ध", feat6_p:"एयरपोर्ट ड्रॉप, देर रात यात्रा — हमेशा तैयार।",
+    how_eyebrow:"आसान बुकिंग", how_title:"राइड कैसे बुक करें",
+    step1_h:"WhatsApp नंबर दर्ज करें", step1_p:"10 अंकों का भारतीय नंबर और सहमति बॉक्स।",
+    step2_h:'"WhatsApp पर राइड बुक करें" टैप करें', step2_p:"प्री-फ़िल्ड संदेश के साथ WhatsApp खुलेगा — Send दबाएं।",
+    step3_h:"रूट, तारीख & समय, और वाहन बताएं", step3_p:"पिकअप, गंतव्य, यात्रा की तारीख & समय, और पसंदीदा वाहन — सेडान, SUV या प्रीमियम।",
+    step4_h:"किराया पाएं और बुकिंग कन्फर्म करें", step4_p:"तुरंत किराया मिलेगा। कन्फर्म करें और ड्राइवर असाइन। यात्रा शुरू!",
+    footer_text:"दक्षिण भारत में वन-वे ड्रॉप टैक्सी & राउंड ट्रिप",
+    float_btn:"राइड बुक करें",
+    success_title:"WhatsApp खुल रहा है…",
+    success_p:"हमने आपका नंबर नोट किया। WhatsApp में <strong>Send</strong> दबाएं!",
+    success_close:"WhatsApp खोलें ↗", cancel_btn:"रद्द करें",
+    trip_label_one:"वन-वे ड्रॉप", trip_label_round:"राउंड ट्रिप"
+  },
+  kn:{
+    badge:"ಒಂದೇ ದಿಕ್ಕಿನ ಡ್ರಾಪ್ & ರೌಂಡ್ ಟ್ರಿಪ್ — ಮರೆಮಾಚಿದ ಶುಲ್ಕವಿಲ್ಲ",
+    hero_h1:"ನಿಮ್ಮ ಪ್ರಯಾಣ ಶುರುವಾಗುತ್ತದೆ", hero_span:"2 ಟ್ಯಾಪ್‌ನಲ್ಲಿ.",
+    hero_p:"ಒಂದೇ ದಿಕ್ಕು ಅಥವಾ ರೌಂಡ್ ಟ್ರಿಪ್ — ಆರಾಮದಾಯಕ, ಪಾರದರ್ಶಕ, ಸಮಯಕ್ಕೆ.",
+    tc_head:'ಕೇವಲ <span>2 ವಿವರಗಳು</span> — ನಿಮ್ಮ ಪ್ರಯಾಣ ಶುರು 🚕',
+    tc1:"📍 ಪಿಕ್‌ಅಪ್ → ಡ್ರಾಪ್ + ದಿನಾಂಕ & ಸಮಯ", tc2:"🚗 ವಾಹನ ಆಯ್ಕೆ ಮಾಡಿ",
+    card_title:"ತಕ್ಷಣ ರೈಡ್ ಬುಕ್ ಮಾಡಿ", card_sub:"ನಮ್ಮ ತಂಡ WhatsApp ನಲ್ಲಿ ನಿಮಿಷಗಳಲ್ಲಿ ಉತ್ತರಿಸುತ್ತದೆ",
+    trip_one:"ಒಂದೇ ದಿಕ್ಕು", trip_round:"ರೌಂಡ್ ಟ್ರಿಪ್",
+    wa_tip:'ಮೊಬೈಲ್‌ನಲ್ಲಿ ಇದ್ದೀರಾ? <a onclick="openWADirect()" tabindex="0">ಇಲ್ಲಿ ಟ್ಯಾಪ್ ಮಾಡಿ WhatsApp ನೇರವಾಗಿ ತೆರೆಯಿರಿ</a>.',
+    label_phone:"ನಿಮ್ಮ WhatsApp ಸಂಖ್ಯೆ", ph_placeholder:"98765 43210",
+    consent_text:"ರೈಡ್ ಬುಕಿಂಗ್‌ಗಾಗಿ <strong>DROPeZi</strong> ನನ್ನನ್ನು ಸಂಪರ್ಕಿಸಲು ಅನುಮತಿ ನೀಡುತ್ತೇನೆ.",
+    error_invalid:"ಸರಿಯಾದ 10 ಅಂಕಿಯ ಸಂಖ್ಯೆ ನಮೂದಿಸಿ.", error_consent:"ಒಪ್ಪಿಗೆ ಪೆಟ್ಟಿಗೆ ಟಿಕ್ ಮಾಡಿ.",
+    cta_btn:"WhatsApp ನಲ್ಲಿ ರೈಡ್ ಬುಕ್ ಮಾಡಿ",
+    privacy_note:"ನಿಮ್ಮ ಸಂಖ್ಯೆ ಬುಕಿಂಗ್‌ಗಾಗಿ ಮಾತ್ರ. ಸ್ಪ್ಯಾಮ್ ಇಲ್ಲ.",
+    routes_label:"ಜನಪ್ರಿಯ ಮಾರ್ಗಗಳು:", route_more:"+ ಯಾವುದೇ ಮಾರ್ಗ",
+    trust1:"ವಾಪಸಾತಿ ಶುಲ್ಕ", trust2:"ರೈಡ್ ಬೆಂಬಲ", trust3:"ರೇಟ್ ಸೇವೆ", trust4:"ಮಾರ್ಗಗಳು",
+    feat_eyebrow:"ಏಕೆ DROPeZi", feat_title:"ನಿಮ್ಮ ಪ್ರಯಾಣ, ಸರಿಯಾಗಿ",
+    feat1_h:"ಒಂದೇ ದಿಕ್ಕು", feat1_p:"ನೀವು ಪ್ರಯಾಣಿಸುವ ದೂರಕ್ಕೆ ಮಾತ್ರ ಪಾವತಿಸಿ.",
+    feat2_h:"ರೌಂಡ್ ಟ್ರಿಪ್ ಕೂಡ", feat2_p:"ಮರಳಿ ಬರಲು ಯೋಜಿಸುತ್ತೀರಾ? ಎರಡೂ ಕಡೆ ಉತ್ತಮ ಬೆಲೆ.",
+    feat3_h:"ತಕ್ಷಣದ WhatsApp ಬುಕಿಂಗ್", feat3_p:"ನೇರ ಚಾಟ್, ನಿಮಿಷಗಳಲ್ಲಿ ದರ ದೃಢ.",
+    feat4_h:"ಹಲವು ವಾಹನ ವಿಧಗಳು", feat4_p:"ಸೆಡಾನ್, SUV, ಪ್ರೀಮಿಯಂ — ಬಜೆಟ್‌ಗೆ ತಕ್ಕಂತೆ.",
+    feat5_h:"ಪಾರದರ್ಶಕ ದರ", feat5_p:"WhatsApp ನಲ್ಲಿ ಮುಂಚಿತ ದರ ನಿಗದಿ. ಅಚ್ಚರಿ ಇಲ್ಲ.",
+    feat6_h:"ರಾತ್ರಿ ಪ್ರಯಾಣ", feat6_p:"ಬೆಳಗಿನ ವಿಮಾನ, ರಾತ್ರಿ ಪ್ರಯಾಣ — ಸದಾ ಸಿದ್ಧ.",
+    how_eyebrow:"ಸರಳ ಬುಕಿಂಗ್", how_title:"ರೈಡ್ ಹೇಗೆ ಬುಕ್ ಮಾಡುವುದು",
+    step1_h:"WhatsApp ಸಂಖ್ಯೆ ನಮೂದಿಸಿ", step1_p:"10 ಅಂಕಿ ಸಂಖ್ಯೆ ಮತ್ತು ಒಪ್ಪಿಗೆ ಪೆಟ್ಟಿಗೆ.",
+    step2_h:'"WhatsApp ನಲ್ಲಿ ರೈಡ್ ಬುಕ್" ಟ್ಯಾಪ್ ಮಾಡಿ', step2_p:"ಪೂರ್ವ-ಭರ್ತಿ ಸಂದೇಶದೊಂದಿಗೆ WhatsApp ತೆರೆಯುತ್ತದೆ.",
+    step3_h:"ಮಾರ್ಗ, ದಿನಾಂಕ & ಸಮಯ, ವಾಹನ ಹಂಚಿಕೊಳ್ಳಿ", step3_p:"ಪಿಕ್‌ಅಪ್, ಗಮ್ಯ, ದಿನಾಂಕ & ಸಮಯ, ವಾಹನ ಆಯ್ಕೆ — ಸೆಡಾನ್, SUV ಅಥವಾ ಪ್ರೀಮಿಯಂ.",
+    step4_h:"ದರ ಪಡೆದು ದೃಢಪಡಿಸಿ", step4_p:"ತಕ್ಷಣ ದರ ಕಳುಹಿಸುತ್ತೇವೆ. ದೃಢಪಡಿಸಿದ ನಂತರ ಚಾಲಕ ನಿಯೋಜಿತ. ಪ್ರಯಾಣ ಆರಂಭ!",
+    footer_text:"ದಕ್ಷಿಣ ಭಾರತದಾದ್ಯಂತ ಒಂದೇ ದಿಕ್ಕಿನ & ರೌಂಡ್ ಟ್ರಿಪ್",
+    float_btn:"ರೈಡ್ ಬುಕ್ ಮಾಡಿ",
+    success_title:"WhatsApp ತೆರೆಯುತ್ತಿದೆ…",
+    success_p:"ಸಂಖ್ಯೆ ನೋಂದಾಯಿಸಿದ್ದೇವೆ. WhatsApp ನಲ್ಲಿ <strong>Send</strong> ಒತ್ತಿರಿ!",
+    success_close:"WhatsApp ತೆರೆಯಿರಿ ↗", cancel_btn:"ರದ್ದುಮಾಡಿ",
+    trip_label_one:"ಒಂದೇ ದಿಕ್ಕು", trip_label_round:"ರೌಂಡ್ ಟ್ರಿಪ್"
+  },
+  ml:{
+    badge:"ഒറ്റ ദിശ ഡ്രോപ്പ് & റൗണ്ട് ട്രിപ്പ് — മറഞ്ഞ ചാർജില്ല",
+    hero_h1:"നിങ്ങളുടെ യാത്ര ആരംഭിക്കുന്നു", hero_span:"2 ടാപ്പിൽ.",
+    hero_p:"ഒറ്റ ദിശ ഡ്രോപ്പ് അല്ലെങ്കിൽ റൗണ്ട് ട്രിപ്പ് — സൗകര്യപ്രദം, സുതാര്യം, സമയത്ത്.",
+    tc_head:'വെറും <span>2 വിവരങ്ങൾ</span> — യാത്ര തുടങ്ങാം 🚕',
+    tc1:"📍 പിക്കപ്പ് → ഡ്രോപ്പ് + തീയതി & സമയം", tc2:"🚗 വാഹനം തിരഞ്ഞെടുക്കൂ",
+    card_title:"ഉടൻ റൈഡ് ബുക്ക് ചെയ്യൂ", card_sub:"ഞങ്ങളുടെ ടീം WhatsApp-ൽ മിനിറ്റുകളിൽ മറുപടി നൽകും",
+    trip_one:"ഒറ്റ ദിശ", trip_round:"റൗണ്ട് ട്രിപ്പ്",
+    wa_tip:'മൊബൈലിലാണോ? <a onclick="openWADirect()" tabindex="0">ഇവിടെ ടാപ്പ് ചെയ്ത് WhatsApp നേരിട്ട് തുറക്കൂ</a> — popup ഇല്ലാതെ.',
+    label_phone:"നിങ്ങളുടെ WhatsApp നമ്പർ", ph_placeholder:"98765 43210",
+    consent_text:"റൈഡ് ബുക്കിംഗിനായി <strong>DROPeZi</strong> ഈ നമ്പറിൽ ബന്ധപ്പെടാൻ ഞാൻ അനുമതി നൽകുന്നു. കോൾബാക്കിന് സമ്മതം.",
+    error_invalid:"ദയവായി 10 അക്ക ഇന്ത്യൻ നമ്പർ നൽകൂ.", error_consent:"സമ്മത ബോക്സ് ടിക്ക് ചെയ്യൂ.",
+    cta_btn:"WhatsApp-ൽ റൈഡ് ബുക്ക് ചെയ്യൂ",
+    privacy_note:"നിങ്ങളുടെ നമ്പർ ബുക്കിംഗിന് മാത്രം. സ്പാം ഇല്ല.",
+    routes_label:"പ്രശസ്ത റൂട്ടുകൾ:", route_more:"+ ഏത് റൂട്ടും",
+    trust1:"തിരിച്ചുള്ള ചാർജ്", trust2:"റൈഡ് സഹായം", trust3:"റേറ്റഡ് സേവനം", trust4:"റൂട്ടുകൾ",
+    feat_eyebrow:"എന്തുകൊണ്ട് DROPeZi", feat_title:"നിങ്ങളുടെ യാത്ര, ശരിയായി",
+    feat1_h:"ഒറ്റ ദിശ മാത്രം", feat1_p:"നിങ്ങൾ സഞ്ചരിക്കുന്ന ദൂരത്തിന് മാത്രം. തിരിച്ചുള്ള ചാർജില്ല.",
+    feat2_h:"റൗണ്ട് ട്രിപ്പും ഉണ്ട്", feat2_p:"തിരിച്ചു വരാൻ പദ്ധതിയുണ്ടോ? രണ്ടു ദിശയും ഉത്തമ നിരക്കിൽ.",
+    feat3_h:"ഉടൻ WhatsApp ബുക്കിംഗ്", feat3_p:"നേരിട്ട് ചാറ്റ് ചെയ്യൂ. മിനിറ്റുകളിൽ ചാർജ് ഉറപ്പ്.",
+    feat4_h:"ഒന്നിലധികം വാഹന തരങ്ങൾ", feat4_p:"സെഡാൻ, SUV, പ്രീമിയം — ബജറ്റ് അനുസരിച്ച് തിരഞ്ഞെടുക്കൂ.",
+    feat5_h:"സുതാര്യമായ ചാർജ്", feat5_p:"WhatsApp-ൽ മുൻകൂട്ടി നിരക്ക്. ആശ്ചര്യങ്ങൾ ഇല്ല.",
+    feat6_h:"രാത്രി യാത്ര ലഭ്യം", feat6_p:"ആദ്യകാല ഫ്ലൈറ്റ്, രാത്രി യാത്ര — എല്ലായ്പ്പോഴും തയ്യാർ.",
+    how_eyebrow:"ലളിതമായ ബുക്കിംഗ്", how_title:"റൈഡ് എങ്ങനെ ബുക്ക് ചെയ്യാം",
+    step1_h:"WhatsApp നമ്പർ നൽകൂ", step1_p:"10 അക്ക ഇന്ത്യൻ നമ്പറും സമ്മത ബോക്സും.",
+    step2_h:'"WhatsApp-ൽ റൈഡ് ബുക്ക്" ടാപ്പ് ചെയ്യൂ', step2_p:"മുൻ-നിറഞ്ഞ സന്ദേശത്തോടെ WhatsApp തുറക്കും — Send അടിക്കൂ.",
+    step3_h:"റൂട്ട്, തീയതി & സമയം, വാഹനം പങ്കിടൂ", step3_p:"പിക്കപ്പ്, ഡ്രോപ്പ്, തീയതി & സമയം, വാഹനം — സെഡാൻ, SUV അല്ലെങ്കിൽ പ്രീമിയം.",
+    step4_h:"ചാർജ് നേടി സ്ഥിരീകരിക്കൂ", step4_p:"ഉടൻ ചാർജ് അയക്കും. സ്ഥിരീകരിച്ചാൽ ഡ്രൈവർ. യാത്ര ആരംഭം!",
+    footer_text:"ദക്ഷിണ ഭാരതമൊട്ടാകെ ഒറ്റ ദിശ & റൗണ്ട് ട്രിപ്പ്",
+    float_btn:"റൈഡ് ബുക്ക് ചെയ്യൂ",
+    success_title:"WhatsApp തുറക്കുന്നു…",
+    success_p:"നിങ്ങളുടെ നമ്പർ ശ്രദ്ധിച്ചു. WhatsApp-ൽ <strong>Send</strong> ടാപ്പ് ചെയ്യൂ!",
+    success_close:"WhatsApp തുറക്കൂ ↗", cancel_btn:"റദ്ദാക്കൂ",
+    trip_label_one:"ഒറ്റ ദിശ ഡ്രോപ്പ്", trip_label_round:"റൗണ്ട് ട്രിപ്പ്"
+  }
+};
+
+/* ══ SET LANGUAGE ══ */
+function setLang(l) {
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === l));
+  const t = T[l];
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const k = el.getAttribute('data-i18n');
+    if (t[k] !== undefined) el.innerHTML = t[k];
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+    const k = el.getAttribute('data-i18n-ph');
+    if (t[k]) el.placeholder = t[k];
+  });
+  // Update trip toggle labels
+  if (document.getElementById('btn-oneway')) {
+    document.querySelector('#btn-oneway span[data-i18n="trip_one"]').textContent = t.trip_one;
+    document.querySelector('#btn-round span[data-i18n="trip_round"]').textContent = t.trip_round;
+  }
+}
+
+/* ══ TRIP TYPE ══ */
+function setTrip(type) {
+  tripType = type;
+  document.getElementById('btn-oneway').classList.toggle('active', type === 'oneway');
+  document.getElementById('btn-round').classList.toggle('active', type === 'round');
+}
+
+/* ══ PHONE VALIDATION ══ */
+function validatePhone(n) { return /^[6-9][0-9]{9}$/.test(n.replace(/\D/g,'')); }
+
+function showError(key) {
+  const el = document.getElementById('error-msg');
+  el.innerHTML = T[lang][key] || T.en[key];
+  el.classList.add('visible');
+}
+function clearError() { document.getElementById('error-msg').classList.remove('visible'); }
+
+/* ══ BUILD WA MESSAGE ══ */
+function buildMsg(phone) {
+  const fmt = '+91 ' + phone.replace(/(\d{5})(\d{5})/, '$1 $2');
+  const tripLabel = tripType === 'round'
+    ? (T[lang].trip_label_round || 'Round Trip')
+    : (T[lang].trip_label_one  || 'One-Way Drop');
+
+  const msgs = {
+    ta: `வணக்கம் DROPeZi! 🚕\nயாத்திரை வகை: ${tripLabel}\nஎன் WhatsApp: ${fmt}\n\nவிவரங்கள்:\n📍 ஏறும் இடம்: [நகரம்/இடம்]\n📍 இறங்கும் இடம்: [நகரம்/இடம்]\n📅 தேதி & நேரம்: [தேதி, நேரம்]\n🚗 வாகனம்: [சேடான் / SUV / பிரீமியம்]\n\nகட்டணம் மற்றும் ஆள் அனுப்புவீர்களா? நன்றி!`,
+    en: `Hello DROPeZi! 🚕\nTrip Type: ${tripLabel}\nMy WhatsApp: ${fmt}\n\nDetails:\n📍 Pickup: [City / Location]\n📍 Drop: [City / Location]\n📅 Date & Time: [Date, Time]\n🚗 Vehicle: [Sedan / SUV / Premium]\n\nPlease share the fare quote. Thank you!`,
+    hi: `नमस्ते DROPeZi! 🚕\nयात्रा प्रकार: ${tripLabel}\nमेरा WhatsApp: ${fmt}\n\nविवरण:\n📍 पिकअप: [शहर / स्थान]\n📍 ड्रॉप: [शहर / स्थान]\n📅 तारीख & समय: [तारीख, समय]\n🚗 वाहन: [सेडान / SUV / प्रीमियम]\n\nकृपया किराया बताएं। धन्यवाद!`,
+    kn: `ನಮಸ್ಕಾರ DROPeZi! 🚕\nಪ್ರಯಾಣ ವಿಧ: ${tripLabel}\nನನ್ನ WhatsApp: ${fmt}\n\nವಿವರಗಳು:\n📍 ಪಿಕ್‌ಅಪ್: [ನಗರ / ಸ್ಥಳ]\n📍 ಡ್ರಾಪ್: [ನಗರ / ಸ್ಥಳ]\n📅 ದಿನಾಂಕ & ಸಮಯ: [ದಿನಾಂಕ, ಸಮಯ]\n🚗 ವಾಹನ: [ಸೆಡಾನ್ / SUV / ಪ್ರೀಮಿಯಂ]\n\nದಯವಿಟ್ಟು ದರ ತಿಳಿಸಿ. ಧನ್ಯವಾದ!`,
+    ml: `ഹലോ DROPeZi! 🚕\nയാത്ര തരം: ${tripLabel}\nഎന്റെ WhatsApp: ${fmt}\n\nവിശദാംശങ്ങൾ:\n📍 പിക്കപ്പ്: [നഗരം / സ്ഥലം]\n📍 ഡ്രോപ്പ്: [നഗരം / സ്ഥലം]\n📅 തീയതി & സമയം: [തീയതി, സമയം]\n🚗 വാഹനം: [സെഡാൻ / SUV / പ്രീമിയം]\n\nദയവായി നിരക്ക് അറിയിക്കൂ. നന്ദി!`
+  };
+  return msgs[lang] || msgs.en;
+}
+
+/* ══ HANDLE QUOTE BUTTON (Fix A: shows overlay, then uses location.href) ══ */
+function handleGetQuote() {
+  clearError();
+  const cleaned = document.getElementById('phone-input').value.replace(/\D/g,'');
+  if (!validatePhone(cleaned)) { showError('error_invalid'); document.getElementById('phone-input').focus(); return; }
+  if (!document.getElementById('consent-check').checked) { showError('error_consent'); return; }
+
+  const fmt = '+91 ' + cleaned.replace(/(\d{5})(\d{5})/, '$1 $2');
+  const t = T[lang];
+  pendingUrl = `https://wa.me/${CARE}?text=${encodeURIComponent(buildMsg(cleaned))}`;
+
+  document.getElementById('success-num').textContent = fmt;
+  document.getElementById('success-trip').textContent = tripType === 'round' ? t.trip_label_round : t.trip_label_one;
+  document.getElementById('success-overlay').classList.add('show');
+}
+
+/* ══ FIX A: window.location.href skips browser's "Open external link?" popup ══ */
+function goToWhatsApp() {
+  closeOverlay();
+  if (pendingUrl) {
+    window.location.href = pendingUrl;  // ← KEY: no popup on mobile browsers
+    pendingUrl = '';
+  }
+}
+
+/* ══ DIRECT WA (floating btn + tip link) ══ */
+function openWADirect() {
+  const t = T[lang];
+  const genericMsg = lang === 'ta' ? 'வணக்கம் DROPeZi! 🚕 பயண கோட்டேஷன் வேண்டும். உதவுங்கள்.'
+    : lang === 'hi' ? 'नमस्ते DROPeZi! 🚕 राइड कोटेशन चाहिए।'
+    : lang === 'kn' ? 'ನಮಸ್ಕಾರ DROPeZi! 🚕 ರೈಡ್ ಕೋಟ್ ಬೇಕು.'
+    : lang === 'ml' ? 'ഹലോ DROPeZi! 🚕 ക്വോട്ടേഷൻ വേണം.'
+    : 'Hello DROPeZi! 🚕 I need a ride quote. Please assist me.';
+  window.location.href = `https://wa.me/${CARE}?text=${encodeURIComponent(genericMsg)}`;
+}
+
+function closeOverlay() {
+  document.getElementById('success-overlay').classList.remove('show');
+}
+
+/* ══ EVENT LISTENERS ══ */
+document.getElementById('phone-input').addEventListener('input', function() {
+  this.value = this.value.replace(/[^0-9]/g,'').slice(0,10);
+  clearError();
+});
+document.getElementById('phone-input').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') handleGetQuote();
+});
+document.getElementById('success-overlay').addEventListener('click', function(e) {
+  if (e.target === this) closeOverlay();
+});
+
+/* ══ INIT: Tamil default ══ */
+setLang('ta');
+</script>
+</body>
+</html>
