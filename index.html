@@ -1057,24 +1057,35 @@ async function calculateAndShow(pickup, drop) {
     if (tripType === 'round') km = km * 2;
     _qData.km = km; _qData.days = days;
 
+    const isShort   = km < MIN_KM;
+    const billedKm  = isShort ? MIN_KM : km;
+
     document.getElementById('qr-km-badge').textContent = km + ' KM';
     document.getElementById('qp-loading').style.display = 'none';
     document.getElementById('qp-result').style.display  = 'block';
-    document.getElementById('qp-short-note').style.display = km < MIN_KM ? 'block' : 'none';
 
-    const tollCount  = Math.max(1, Math.round(km / 100));
+    const shortEl = document.getElementById('qp-short-note');
+    if (isShort) {
+      shortEl.textContent = 'Actual distance is ' + km + ' KM. Minimum trip fare applies for 130 KM.';
+      shortEl.style.display = 'block';
+    } else {
+      shortEl.style.display = 'none';
+    }
+
+    const tollCount  = Math.max(1, Math.round(billedKm / 100));
     const tollTotal  = tollCount * TOLL_RATE;
     const driverCost = DRIVER_PER_DAY * days;
     const ratePerKm  = RATES[vehicleType];
     const isPremium  = vehicleType === 'premium';
-    const fare       = isPremium ? null : km * ratePerKm;
+    const fare       = isPremium ? null : billedKm * ratePerKm;
     const grandTotal = isPremium ? null : fare + driverCost + tollTotal;
 
-    Object.assign(_qData, { tollCount, tollTotal, driverCost, ratePerKm, fare, grandTotal });
+    Object.assign(_qData, { km, billedKm, tollCount, tollTotal, driverCost, ratePerKm, fare, grandTotal });
 
+    const distLabel = isShort ? km + ' KM (billed: 130 KM min)' : km + ' KM';
     const rows = isPremium
-      ? [ ['Distance', km + ' KM', false], ['Vehicle', '\u2728 Premium', false] ]
-      : [ ['Distance', km + ' KM', false], ['Rate', rupee(ratePerKm) + '/km', false], ['Ride Fare', rupee(fare), true] ];
+      ? [ ['Distance', distLabel, false], ['Vehicle', '\u2728 Premium', false] ]
+      : [ ['Distance', distLabel, false], ['Rate', rupee(ratePerKm) + '/km', false], ['Ride Fare', rupee(fare), true] ];
 
     rows.push(['Driver Charge', rupee(driverCost) + ' (' + days + ' day' + (days > 1 ? 's' : '') + ')', false]);
     rows.push(['Tolls (' + tollCount + ' \u00d7 ' + rupee(TOLL_RATE) + ')', rupee(tollTotal), false]);
