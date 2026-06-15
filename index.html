@@ -1172,55 +1172,81 @@ function qpSetTrip(t) {
 }
 
 function recalculateFare() {
-  const { baseKm } = _qData;
-  if (!baseKm) return; /* no data yet */
-  const km      = tripType === 'round' ? baseKm * 2 : baseKm;
-  const days    = tripType === 'round' ? 2 : 1;
-  const minKm = tripType === 'round' ? 260 : 130;
-  const billedKm = Math.max(km, minKm);
-  _qData.km = km; _qData.days = days; _qData.billedKm = billedKm;
-  document.getElementById('qr-km-badge').textContent = km + ' KM';
-  document.getElementById('qp-recalc-btn').style.display = 'none';
-  /* update short note */
-  const shortEl2 = document.getElementById('qp-short-note');
-  if (km < minKm) { shortEl2.textContent = 'Actual distance is ' + km + ' KM. Minimum ' + (tripType === 'round' ? 'round trip' : 'one-way') + ' fare applies for ' + minKm + ' KM.'; shortEl2.style.display = 'block'; } else { shortEl2.style.display = 'none'; }
-  /* re-run fare math without API calls */
-  const RATES = { sedan:14, suv:19, premium:null };
-  const TOLL_RATE = 80; const DRIVER_PER_DAY = 300;
-  const rupee = n => '\u20B9' + n.toLocaleString('en-IN');
-  const isPremium  = vehicleType === 'premium';
-  const ratePerKm  = RATES[vehicleType];
-  const tollCount  = Math.max(1, Math.round(billedKm / 100));
-  const tollTotal  = tollCount * TOLL_RATE;
-  const driverCost = DRIVER_PER_DAY * days;
-  const fare       = isPremium ? null : billedKm * ratePerKm;
-  const grandTotal = isPremium ? null : fare + driverCost + tollTotal;
-  Object.assign(_qData, { ratePerKm, fare, grandTotal, tollCount, tollTotal, driverCost });
+  try {
+    /* Use baseKm (one-way road distance) if available, else fall back to stored km */
+    const oneWayKm = _qData.baseKm || (tripType === 'round' && _qData.km ? Math.round(_qData.km / 2) : _qData.km);
+    if (!oneWayKm) { console.warn('recalculate: no km data yet'); return; }
 
-  const isShort  = km < minKm;
-  const distLabel = isShort ? km + ' KM (billed: ' + minKm + ' KM min)' : km + ' KM';
-  const rows = isPremium
-    ? [ ['Distance', distLabel, false], ['Vehicle', '\u2728 Premium', false] ]
-    : [ ['Distance', distLabel, false], ['Rate', rupee(ratePerKm) + '/km', false], ['Ride Fare', rupee(fare), true] ];
-  rows.push(['Driver Charge', rupee(driverCost) + ' (' + days + ' day' + (days>1?'s':'') + ')', false]);
-  rows.push(['Tolls (' + tollCount + ' \u00d7 ' + rupee(TOLL_RATE) + ')', rupee(tollTotal), false]);
+    const km       = tripType === 'round' ? oneWayKm * 2 : oneWayKm;
+    const days     = tripType === 'round' ? 2 : 1;
+    const minKm    = tripType === 'round' ? 260 : 130;
+    const billedKm = Math.max(km, minKm);
 
-  document.getElementById('qp-table').innerHTML = rows.map(([l,v,hi]) =>
-    '<div class="qp-row"><span class="qp-row-label">'+l+'</span>'
-    +'<span class="qp-row-val'+(hi?' highlight':'')+'">' +v+'</span></div>'
-  ).join('');
+    /* persist back to _qData */
+    _qData.baseKm   = oneWayKm;
+    _qData.km       = km;
+    _qData.days     = days;
+    _qData.billedKm = billedKm;
 
-  const grandEl = document.getElementById('qp-grand-row');
-  const premEl  = document.getElementById('qp-premium-note');
-  if (isPremium) {
-    grandEl.style.display = 'none'; premEl.style.display = 'block';
-    document.getElementById('qp-cta-txt').textContent = 'Get Premium Quote on WhatsApp';
-  } else {
-    grandEl.style.display = 'flex'; premEl.style.display = 'none';
-    document.getElementById('qp-grand').textContent = rupee(grandTotal);
-    document.getElementById('qp-cta-txt').textContent = 'Confirm & Book on WhatsApp';
+    /* update KM badge */
+    document.getElementById('qr-km-badge').textContent = km + ' KM';
+    document.getElementById('qp-recalc-btn').style.display = 'none';
+
+    /* short-distance note */
+    const shortEl = document.getElementById('qp-short-note');
+    if (km < minKm) {
+      shortEl.textContent = 'Actual distance is ' + km + ' KM. Minimum '
+        + (tripType === 'round' ? 'round trip' : 'one-way') + ' fare applies for ' + minKm + ' KM.';
+      shortEl.style.display = 'block';
+    } else {
+      shortEl.style.display = 'none';
+    }
+
+    /* fare math */
+    const RATES          = { sedan: 14, suv: 19, premium: null };
+    const TOLL_RATE      = 80;
+    const DRIVER_PER_DAY = 300;
+    const rupee          = n => '\u20B9' + n.toLocaleString('en-IN');
+    const isPremium      = vehicleType === 'premium';
+    const ratePerKm      = RATES[vehicleType];
+    const tollCount      = Math.max(1, Math.round(billedKm / 100));
+    const tollTotal      = tollCount * TOLL_RATE;
+    const driverCost     = DRIVER_PER_DAY * days;
+    const fare           = isPremium ? null : billedKm * ratePerKm;
+    const grandTotal     = isPremium ? null : fare + driverCost + tollTotal;
+
+    Object.assign(_qData, { ratePerKm, fare, grandTotal, tollCount, tollTotal, driverCost });
+
+    const isShort   = km < minKm;
+    const distLabel = isShort ? km + ' KM (billed: ' + minKm + ' KM min)' : km + ' KM';
+    const rows = isPremium
+      ? [ ['Distance', distLabel, false], ['Vehicle', '\u2728 Premium', false] ]
+      : [ ['Distance', distLabel, false], ['Rate', rupee(ratePerKm) + '/km', false], ['Ride Fare', rupee(fare), true] ];
+    rows.push(['Driver Charge', rupee(driverCost) + ' (' + days + ' day' + (days > 1 ? 's' : '') + ')', false]);
+    rows.push(['Tolls (' + tollCount + ' \u00d7 ' + rupee(TOLL_RATE) + ')', rupee(tollTotal), false]);
+
+    document.getElementById('qp-table').innerHTML = rows.map(([l, v, hi]) =>
+      '<div class="qp-row"><span class="qp-row-label">' + l + '</span>'
+      + '<span class="qp-row-val' + (hi ? ' highlight' : '') + '">' + v + '</span></div>'
+    ).join('');
+
+    const grandEl = document.getElementById('qp-grand-row');
+    const premEl  = document.getElementById('qp-premium-note');
+    if (isPremium) {
+      grandEl.style.display = 'none';
+      premEl.style.display  = 'block';
+      document.getElementById('qp-cta-txt').textContent = 'Get Premium Quote on WhatsApp';
+    } else {
+      grandEl.style.display = 'flex';
+      premEl.style.display  = 'none';
+      document.getElementById('qp-grand').textContent   = rupee(grandTotal);
+      document.getElementById('qp-cta-txt').textContent = 'Confirm & Book on WhatsApp';
+    }
+  } catch(err) {
+    console.error('recalculateFare error:', err);
   }
 }
+
 
 function sendQuoteOnWA() {
   const phone   = document.getElementById('qp-phone').value.replace(/\D/g,'');
