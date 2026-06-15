@@ -469,6 +469,14 @@ html[lang="ta"] .wa-tip-hero{font-size:.73rem;}
     </div>
 
     <div id="qp-result" style="display:none">
+      <!-- Trip type toggle inside quote panel -->
+      <div class="qp-vehicle-row">
+        <span class="qp-vehicle-label">Trip</span>
+        <div class="qp-vehicle-btns" role="group">
+          <button class="qpv-btn active" id="qpt-oneway" onclick="qpSetTrip('oneway')">🛣️ One-Way</button>
+          <button class="qpv-btn"        id="qpt-round"  onclick="qpSetTrip('round')">🔄 Round Trip</button>
+        </div>
+      </div>
       <!-- Vehicle selector inside quote panel -->
       <div class="qp-vehicle-row">
         <span class="qp-vehicle-label">Vehicle</span>
@@ -1026,6 +1034,10 @@ function openQuotePanel(pickup, drop, date, time) {
   document.getElementById('qp-phone-err').style.display   = 'none';
   document.getElementById('qp-consent-err').style.display = 'none';
 
+  /* sync trip buttons */
+  ['oneway','round'].forEach(t => {
+    document.getElementById('qpt-' + t).classList.toggle('active', t === tripType);
+  });
   /* sync vehicle buttons to current selection */
   ['sedan','suv','premium'].forEach(v => {
     document.getElementById('qpv-' + v).classList.toggle('active', v === vehicleType);
@@ -1071,15 +1083,15 @@ async function calculateAndShow(pickup, drop) {
   const RATES          = { sedan: 14, suv: 19, premium: null };
   const DRIVER_PER_DAY = 300;
   const TOLL_RATE      = 80;
-  const MIN_KM         = 130;
+  const MIN_KM = tripType === 'round' ? 260 : 130;
   const rupee = n => '\u20B9' + n.toLocaleString('en-IN');
 
   try {
     const [p, d] = await Promise.all([geocodePlace(pickup), geocodePlace(drop)]);
-    let km  = await getRoadKm(p.lat, p.lon, d.lat, d.lon);
+    const baseKm = await getRoadKm(p.lat, p.lon, d.lat, d.lon);
     const days = tripType === 'round' ? 2 : 1;
-    if (tripType === 'round') km = km * 2;
-    _qData.km = km; _qData.days = days;
+    const km   = tripType === 'round' ? baseKm * 2 : baseKm;
+    _qData.baseKm = baseKm; _qData.km = km; _qData.days = days;
 
     const isShort   = km < MIN_KM;
     const billedKm  = isShort ? MIN_KM : km;
@@ -1090,7 +1102,7 @@ async function calculateAndShow(pickup, drop) {
 
     const shortEl = document.getElementById('qp-short-note');
     if (isShort) {
-      shortEl.textContent = 'Actual distance is ' + km + ' KM. Minimum trip fare applies for 130 KM.';
+      shortEl.textContent = 'Actual distance is ' + km + ' KM. Minimum ' + (tripType === 'round' ? 'round trip' : 'one-way') + ' fare applies for ' + MIN_KM + ' KM.';
       shortEl.style.display = 'block';
     } else {
       shortEl.style.display = 'none';
@@ -1106,7 +1118,7 @@ async function calculateAndShow(pickup, drop) {
 
     Object.assign(_qData, { km, billedKm, tollCount, tollTotal, driverCost, ratePerKm, fare, grandTotal });
 
-    const distLabel = isShort ? km + ' KM (billed: 130 KM min)' : km + ' KM';
+    const distLabel = isShort ? km + ' KM (billed: ' + MIN_KM + ' KM min)' : km + ' KM';
     const rows = isPremium
       ? [ ['Distance', distLabel, false], ['Vehicle', '\u2728 Premium', false] ]
       : [ ['Distance', distLabel, false], ['Rate', rupee(ratePerKm) + '/km', false], ['Ride Fare', rupee(fare), true] ];
@@ -1149,10 +1161,29 @@ function qpSetVehicle(v) {
   document.getElementById('qp-recalc-btn').style.display = 'inline-block';
 }
 
+function qpSetTrip(t) {
+  tripType = t;
+  ['oneway','round'].forEach(id => {
+    document.getElementById('qpt-' + id).classList.toggle('active', id === t);
+  });
+  const tripLabel = t === 'round' ? 'Round Trip' : 'One-Way';
+  document.getElementById('qr-chip-trip').textContent = tripLabel;
+  document.getElementById('qp-recalc-btn').style.display = 'inline-block';
+}
+
 function recalculateFare() {
-  const { billedKm, km, days } = _qData;
-  if (!billedKm && billedKm !== 0) return; /* no data yet */
+  const { baseKm } = _qData;
+  if (!baseKm) return; /* no data yet */
+  const km      = tripType === 'round' ? baseKm * 2 : baseKm;
+  const days    = tripType === 'round' ? 2 : 1;
+  const minKm = tripType === 'round' ? 260 : 130;
+  const billedKm = Math.max(km, minKm);
+  _qData.km = km; _qData.days = days; _qData.billedKm = billedKm;
+  document.getElementById('qp-km-badge').textContent = km + ' KM';
   document.getElementById('qp-recalc-btn').style.display = 'none';
+  /* update short note */
+  const shortEl2 = document.getElementById('qp-short-note');
+  if (km < minKm) { shortEl2.textContent = 'Actual distance is ' + km + ' KM. Minimum ' + (tripType === 'round' ? 'round trip' : 'one-way') + ' fare applies for ' + minKm + ' KM.'; shortEl2.style.display = 'block'; } else { shortEl2.style.display = 'none'; }
   /* re-run fare math without API calls */
   const RATES = { sedan:14, suv:19, premium:null };
   const TOLL_RATE = 80; const DRIVER_PER_DAY = 300;
@@ -1167,7 +1198,7 @@ function recalculateFare() {
   Object.assign(_qData, { ratePerKm, fare, grandTotal, tollCount, tollTotal, driverCost });
 
   const isShort  = km < 130;
-  const distLabel = isShort ? km + ' KM (billed: 130 KM min)' : km + ' KM';
+  const distLabel = isShort ? km + ' KM (billed: ' + MIN_KM + ' KM min)' : km + ' KM';
   const rows = isPremium
     ? [ ['Distance', distLabel, false], ['Vehicle', '\u2728 Premium', false] ]
     : [ ['Distance', distLabel, false], ['Rate', rupee(ratePerKm) + '/km', false], ['Ride Fare', rupee(fare), true] ];
