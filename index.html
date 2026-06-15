@@ -363,14 +363,14 @@ html[lang="ta"] .wa-tip-hero{font-size:.73rem;}
       <div class="loc-field">
         <label class="field-label" for="pickup-input" data-i18n="label_pickup">ஏறும் இடம்</label>
         <div class="text-input-wrap">
-          <input type="text" id="pickup-input" data-i18n-ph="ph_pickup" placeholder="நகரம் அல்லது இடம்" autocomplete="off" aria-label="Pickup location" />
+          <input type="text" id="pickup-input" data-i18n-ph="ph_pickup" placeholder="நகரம் அல்லது இடம்" autocomplete="new-password" aria-label="Pickup location" />
         </div>
       </div>
       <button class="swap-btn" onclick="swapLocations()" aria-label="Swap pickup and drop" title="Swap">⇅</button>
       <div class="loc-field">
         <label class="field-label" for="drop-input" data-i18n="label_drop">இறங்கும் இடம்</label>
         <div class="text-input-wrap">
-          <input type="text" id="drop-input" data-i18n-ph="ph_drop" placeholder="நகரம் அல்லது இடம்" autocomplete="off" aria-label="Drop location" />
+          <input type="text" id="drop-input" data-i18n-ph="ph_drop" placeholder="நகரம் அல்லது இடம்" autocomplete="new-password" aria-label="Drop location" />
         </div>
       </div>
     </div>
@@ -1388,24 +1388,16 @@ setLang('en');
 </div>
 <script>
 (function(){
-  if (sessionStorage.getItem('dropezi_splash')) {
-    var s = document.getElementById('splash-screen');
-    s.style.display = 'none';
-    return;
-  }
   var splash = document.getElementById('splash-screen');
   var video  = document.getElementById('splash-video');
   function dismiss() {
-    sessionStorage.setItem('dropezi_splash','1');
     splash.style.opacity = '0';
     splash.style.pointerEvents = 'none';
     setTimeout(function(){ splash.style.display = 'none'; }, 650);
   }
   video.addEventListener('ended', dismiss);
-  // Fallback: dismiss after 4s if video doesn't fire ended
-  setTimeout(dismiss, 4000);
-  // Also allow tap/click to skip
-  splash.addEventListener('click', dismiss);
+  setTimeout(dismiss, 4500); // fallback
+  splash.addEventListener('click', dismiss); // tap to skip
 })();
 </script>
 
