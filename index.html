@@ -1179,7 +1179,7 @@ function recalculateFare() {
   const minKm = tripType === 'round' ? 260 : 130;
   const billedKm = Math.max(km, minKm);
   _qData.km = km; _qData.days = days; _qData.billedKm = billedKm;
-  document.getElementById('qp-km-badge').textContent = km + ' KM';
+  document.getElementById('qr-km-badge').textContent = km + ' KM';
   document.getElementById('qp-recalc-btn').style.display = 'none';
   /* update short note */
   const shortEl2 = document.getElementById('qp-short-note');
