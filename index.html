@@ -1441,9 +1441,9 @@ setLang('en');
 /* Image contained — background visible around it */
 #splash-brand img {
   width:min(500px,92vw);
-  aspect-ratio:1280/2274;   /* match portrait MP4 ratio */
-  object-fit:cover;
-  object-position:center center;
+  aspect-ratio:1280/2274;
+  object-fit:contain;
+  background:#f0f0f0;  /* match wall colour so letterbox is invisible */
   display:block;
   border-radius:16px;
 }
