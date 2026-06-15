@@ -1386,34 +1386,42 @@ setLang('en');
 <style>
 #splash-screen {
   position:fixed;inset:0;z-index:9999;
-  background:#000;
+  background:linear-gradient(110deg,#1a2f7a 0%,#2c50c8 42%,#c45008 100%);
   display:flex;align-items:center;justify-content:center;
   transition:opacity 0.7s ease;
 }
+/* Video and brand image confined to content width */
 #splash-video {
-  position:absolute;inset:0;width:100%;height:100%;
-  object-fit:cover;
+  width:min(500px,92vw);
+  height:auto;
+  max-height:90vh;
+  border-radius:16px;
   opacity:1;
   transition:opacity 0.6s ease;
+  position:relative;z-index:1;
 }
 #splash-brand {
-  position:absolute;inset:0;
+  position:absolute;
   display:flex;align-items:center;justify-content:center;
+  width:min(500px,92vw);
   background:linear-gradient(110deg,#1a2f7a 0%,#2c50c8 42%,#c45008 100%);
+  border-radius:16px;
+  overflow:hidden;
   opacity:0;
   transition:opacity 0.7s ease;
   pointer-events:none;
+  z-index:2;
 }
 #splash-brand img {
-  max-width:min(640px,92vw);
-  max-height:80vh;
-  object-fit:contain;
+  width:100%;
+  height:auto;
+  display:block;
 }
 </style>
-<div id=splash-screen>
-  <video id=splash-video src=DROPeZi-Draft03.mp4 autoplay muted playsinline></video>
-  <div id=splash-brand>
-    <img src=splash-brand.jpeg alt=DROPeZi onerror=this.src='logo.jpg'>
+<div id="splash-screen">
+  <video id="splash-video" src="DROPeZi-Draft03.mp4" autoplay muted playsinline></video>
+  <div id="splash-brand">
+    <img src="splash-brand.jpeg" alt="DROPeZi" onerror="this.src='logo.jpg'">
   </div>
 </div>
 <script>
@@ -1431,7 +1439,7 @@ setLang('en');
     setTimeout(function(){ splash.style.display = 'none'; }, 750);
   }
 
-  // Near end of video: fade video out, fade brand in
+  // Near end of video: crossfade to brand image
   var endShown = false;
   video.addEventListener('timeupdate', function() {
     if (!endShown && video.currentTime >= 2.5) {
@@ -1441,16 +1449,12 @@ setLang('en');
     }
   });
 
-  // After video ends: hold brand 0.5s, then fade entire splash into landing page
+  // After video ends: 200ms hold then fade splash into landing page
   video.addEventListener('ended', function() {
-    setTimeout(function() {
-      // Switch splash bg to landing page gradient before fading — seamless
-      splash.style.background = 'linear-gradient(110deg,#1a2f7a 0%,#2c50c8 42%,#c45008 100%)';
-      dismiss();
-    }, 200);
+    setTimeout(dismiss, 200);
   });
 
-  setTimeout(dismiss, 6500); // hard fallback
+  setTimeout(dismiss, 6500);
   splash.addEventListener('click', dismiss);
 })();
 </script>
