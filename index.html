@@ -288,6 +288,14 @@ html[lang="ta"] .wa-tip-hero{font-size:.73rem;}
 .qp-recalc-btn{background:var(--blue);color:#fff;border:none;border-radius:8px;padding:7px 12px;font-size:.76rem;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;transition:opacity .15s;}
 .qp-recalc-btn:hover{opacity:.88;}
 
+/* ── Hide browser autofill/contact icon ── */
+input::-webkit-contacts-auto-fill-button,
+input::-webkit-credentials-auto-fill-button {
+  visibility:hidden !important;
+  display:none !important;
+  pointer-events:none;
+  width:0;height:0;
+}
 /* ── City autocomplete dropdown ── */
 .ac-wrap{position:relative;}
 .ac-list{
@@ -1482,39 +1490,45 @@ setLang('en');
 /* ── Nominatim city autocomplete ── */
 (function(){
   var timer = {};
-  var active = {};  // inputId -> current list el
 
-  function closeAll() {
-    document.querySelectorAll('.ac-list').forEach(function(el){ el.remove(); });
-    active = {};
+  function removeList() {
+    var el = document.getElementById('ac-dropdown');
+    if (el) el.remove();
   }
 
   document.addEventListener('click', function(e){
-    if (!e.target.closest('.ac-wrap')) closeAll();
+    if (!e.target.closest('.ac-wrap') && !e.target.closest('#ac-dropdown')) removeList();
   });
+  window.addEventListener('scroll', removeList, true);
+  window.addEventListener('resize', removeList);
 
   function buildList(inputEl, results) {
-    closeAll();
+    removeList();
     if (!results.length) return;
+
+    var rect = inputEl.getBoundingClientRect();
     var list = document.createElement('div');
+    list.id = 'ac-dropdown';
     list.className = 'ac-list';
+    list.style.cssText = 'position:fixed;top:'+(rect.bottom+4)+'px;left:'+rect.left+'px;width:'+rect.width+'px;z-index:99999;';
+
     results.forEach(function(r) {
       var parts = (r.display_name || '').split(',');
       var name  = parts[0].trim();
       var state = parts.slice(1,3).map(function(s){return s.trim();}).filter(Boolean).join(', ');
       var item  = document.createElement('div');
       item.className = 'ac-item';
-      item.innerHTML = '<span class="ac-icon">📍</span><span><span class="ac-name">' +
-        name + '</span><span class="ac-state"> · ' + state + '</span></span>';
+      item.innerHTML = '<span class="ac-icon">📍</span><span><span class="ac-name">'
+        + name + '</span><span class="ac-state"> · ' + state + '</span></span>';
       item.addEventListener('mousedown', function(e){
         e.preventDefault();
         inputEl.value = name;
-        closeAll();
+        removeList();
         inputEl.dispatchEvent(new Event('change'));
       });
       list.appendChild(item);
     });
-    inputEl.closest('.ac-wrap').appendChild(list);
+    document.body.appendChild(list);
   }
 
   function attachAC(inputId) {
@@ -1523,18 +1537,18 @@ setLang('en');
     inp.addEventListener('input', function(){
       var q = inp.value.trim();
       clearTimeout(timer[inputId]);
-      if (q.length < 3) { closeAll(); return; }
+      if (q.length < 3) { removeList(); return; }
       timer[inputId] = setTimeout(function(){
         fetch('https://nominatim.openstreetmap.org/search?q='
           + encodeURIComponent(q + ', India')
           + '&format=json&limit=5&countrycodes=in&addressdetails=0')
         .then(function(r){ return r.json(); })
         .then(function(data){ buildList(inp, data); })
-        .catch(function(){});
+        .catch(function(err){ console.warn('AC fetch:', err); });
       }, 380);
     });
     inp.addEventListener('keydown', function(e){
-      var list = inp.closest('.ac-wrap').querySelector('.ac-list');
+      var list = document.getElementById('ac-dropdown');
       if (!list) return;
       var items = list.querySelectorAll('.ac-item');
       var cur   = list.querySelector('.ac-active');
@@ -1550,10 +1564,13 @@ setLang('en');
       } else if (e.key === 'Enter' && cur) {
         e.preventDefault();
         inp.value = cur.querySelector('.ac-name').textContent;
-        closeAll();
+        removeList();
       } else if (e.key === 'Escape') {
-        closeAll();
+        removeList();
       }
+    });
+    inp.addEventListener('blur', function(){
+      setTimeout(removeList, 200);
     });
   }
 
