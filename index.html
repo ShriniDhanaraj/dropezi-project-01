@@ -1441,8 +1441,9 @@ setLang('en');
 /* Image contained — background visible around it */
 #splash-brand img {
   width:min(500px,92vw);
-  height:auto;
-  max-height:90vh;
+  aspect-ratio:1280/2274;   /* match portrait MP4 ratio */
+  object-fit:cover;
+  object-position:center center;
   display:block;
   border-radius:16px;
 }
