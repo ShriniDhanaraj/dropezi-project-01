@@ -247,8 +247,8 @@ html[lang="ta"] .wa-tip-hero{font-size:.73rem;}
 
 /* ══ QUOTE PANEL ══ */
 #quote-panel{padding:4px 0 8px;}
-.qp-back{background:none;border:none;color:var(--blue);font-size:.78rem;font-weight:700;cursor:pointer;padding:0 0 14px;display:block;text-decoration:none;letter-spacing:.2px;}
-.qp-back:hover{text-decoration:underline;}
+.qp-back{display:inline-flex;align-items:center;gap:5px;background:var(--blue-pale);border:1.5px solid var(--blue-mid);color:var(--blue);font-size:.8rem;font-weight:800;cursor:pointer;padding:6px 14px 6px 10px;border-radius:20px;margin-bottom:16px;letter-spacing:.2px;transition:all .15s;}
+.qp-back:hover{background:var(--blue);color:#fff;border-color:var(--blue);}
 .qp-route{position:relative;padding:0 0 0 18px;margin-bottom:10px;}
 .qp-loc{display:flex;align-items:center;gap:8px;padding:2px 0;}
 .qp-city{font-size:.92rem;font-weight:700;color:var(--text);}
@@ -1197,8 +1197,8 @@ function recalculateFare() {
   const grandTotal = isPremium ? null : fare + driverCost + tollTotal;
   Object.assign(_qData, { ratePerKm, fare, grandTotal, tollCount, tollTotal, driverCost });
 
-  const isShort  = km < 130;
-  const distLabel = isShort ? km + ' KM (billed: ' + MIN_KM + ' KM min)' : km + ' KM';
+  const isShort  = km < minKm;
+  const distLabel = isShort ? km + ' KM (billed: ' + minKm + ' KM min)' : km + ' KM';
   const rows = isPremium
     ? [ ['Distance', distLabel, false], ['Vehicle', '\u2728 Premium', false] ]
     : [ ['Distance', distLabel, false], ['Rate', rupee(ratePerKm) + '/km', false], ['Ride Fare', rupee(fare), true] ];
