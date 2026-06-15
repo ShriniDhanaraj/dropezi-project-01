@@ -249,7 +249,7 @@ html[lang="ta"] .wa-tip-hero{font-size:.73rem;}
 
 /* ══ QUOTE PANEL ══ */
 #quote-panel{padding:4px 0 8px;}
-.qp-back{display:inline-flex;align-items:center;gap:5px;background:var(--blue-pale);border:1.5px solid var(--blue-mid);color:var(--blue);font-size:.8rem;font-weight:800;cursor:pointer;padding:6px 14px 6px 10px;border-radius:20px;margin-bottom:16px;letter-spacing:.2px;transition:all .15s;}
+.qp-back{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#1d4ed8,#2563eb);border:none;color:#fff;font-size:.92rem;font-weight:800;cursor:pointer;padding:11px 22px 11px 16px;border-radius:30px;margin-bottom:16px;letter-spacing:.3px;transition:all .18s;box-shadow:0 4px 18px rgba(37,99,235,.45);}
 .qp-back:hover{background:var(--blue);color:#fff;border-color:var(--blue);}
 .qp-route{position:relative;padding:0 0 0 18px;margin-bottom:10px;}
 .qp-loc{display:flex;align-items:center;gap:8px;padding:2px 0;}
@@ -287,6 +287,26 @@ html[lang="ta"] .wa-tip-hero{font-size:.73rem;}
 .qpv-btn:hover:not(.active){border-color:var(--blue-mid);color:var(--blue);}
 .qp-recalc-btn{background:var(--blue);color:#fff;border:none;border-radius:8px;padding:7px 12px;font-size:.76rem;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;transition:opacity .15s;}
 .qp-recalc-btn:hover{opacity:.88;}
+
+/* ── City autocomplete dropdown ── */
+.ac-wrap{position:relative;}
+.ac-list{
+  position:absolute;top:calc(100% + 4px);left:0;right:0;
+  background:#fff;border:1.5px solid var(--blue-mid);border-radius:10px;
+  box-shadow:0 8px 24px rgba(37,99,235,.15);
+  z-index:999;overflow:hidden;max-height:220px;overflow-y:auto;
+  animation:acFade .12s ease;
+}
+@keyframes acFade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.ac-item{
+  padding:10px 14px;font-size:.88rem;color:var(--text);cursor:pointer;
+  border-bottom:1px solid #f1f5f9;display:flex;align-items:center;gap:8px;
+}
+.ac-item:last-child{border-bottom:none;}
+.ac-item:hover,.ac-item.ac-active{background:#eff6ff;color:var(--blue);}
+.ac-item .ac-icon{font-size:.95rem;flex-shrink:0;}
+.ac-item .ac-name{font-weight:700;}
+.ac-item .ac-state{font-size:.78rem;color:var(--text-muted);margin-left:2px;}
 </style>
 </head>
 <body>
@@ -364,14 +384,14 @@ html[lang="ta"] .wa-tip-hero{font-size:.73rem;}
     <div class="location-pair">
       <div class="loc-field">
         <label class="field-label" for="pickup-input" data-i18n="label_pickup">ஏறும் இடம்</label>
-        <div class="text-input-wrap">
+        <div class="text-input-wrap ac-wrap">
           <input type="text" id="pickup-input" data-i18n-ph="ph_pickup" placeholder="நகரம் அல்லது இடம்" autocomplete="new-password" aria-label="Pickup location" />
         </div>
       </div>
       <button class="swap-btn" onclick="swapLocations()" aria-label="Swap pickup and drop" title="Swap">⇅</button>
       <div class="loc-field">
         <label class="field-label" for="drop-input" data-i18n="label_drop">இறங்கும் இடம்</label>
-        <div class="text-input-wrap">
+        <div class="text-input-wrap ac-wrap">
           <input type="text" id="drop-input" data-i18n-ph="ph_drop" placeholder="நகரம் அல்லது இடம்" autocomplete="new-password" aria-label="Drop location" />
         </div>
       </div>
@@ -1412,11 +1432,11 @@ setLang('en');
 }
 /* Image contained — background visible around it */
 #splash-brand img {
-  width:min(460px,85vw);
+  width:min(500px,92vw);
   height:auto;
   display:block;
-  border-radius:14px;
-  box-shadow:0 8px 40px rgba(0,0,0,0.35);
+  border-radius:16px;
+  box-shadow:0 12px 48px rgba(0,0,0,0.45);
 }
 </style>
 <div id="splash-screen">
@@ -1458,5 +1478,89 @@ setLang('en');
 })();
 </script>
 
+
+<script>
+/* ── Nominatim city autocomplete ── */
+(function(){
+  var timer = {};
+  var active = {};  // inputId -> current list el
+
+  function closeAll() {
+    document.querySelectorAll('.ac-list').forEach(function(el){ el.remove(); });
+    active = {};
+  }
+
+  document.addEventListener('click', function(e){
+    if (!e.target.closest('.ac-wrap')) closeAll();
+  });
+
+  function buildList(inputEl, results) {
+    closeAll();
+    if (!results.length) return;
+    var list = document.createElement('div');
+    list.className = 'ac-list';
+    results.forEach(function(r) {
+      var parts = (r.display_name || '').split(',');
+      var name  = parts[0].trim();
+      var state = parts.slice(1,3).map(function(s){return s.trim();}).filter(Boolean).join(', ');
+      var item  = document.createElement('div');
+      item.className = 'ac-item';
+      item.innerHTML = '<span class="ac-icon">📍</span><span><span class="ac-name">' +
+        name + '</span><span class="ac-state"> · ' + state + '</span></span>';
+      item.addEventListener('mousedown', function(e){
+        e.preventDefault();
+        inputEl.value = name;
+        closeAll();
+        inputEl.dispatchEvent(new Event('change'));
+      });
+      list.appendChild(item);
+    });
+    inputEl.closest('.ac-wrap').appendChild(list);
+  }
+
+  function attachAC(inputId) {
+    var inp = document.getElementById(inputId);
+    if (!inp) return;
+    inp.addEventListener('input', function(){
+      var q = inp.value.trim();
+      clearTimeout(timer[inputId]);
+      if (q.length < 3) { closeAll(); return; }
+      timer[inputId] = setTimeout(function(){
+        fetch('https://nominatim.openstreetmap.org/search?q='
+          + encodeURIComponent(q + ', India')
+          + '&format=json&limit=5&countrycodes=in&addressdetails=0')
+        .then(function(r){ return r.json(); })
+        .then(function(data){ buildList(inp, data); })
+        .catch(function(){});
+      }, 380);
+    });
+    inp.addEventListener('keydown', function(e){
+      var list = inp.closest('.ac-wrap').querySelector('.ac-list');
+      if (!list) return;
+      var items = list.querySelectorAll('.ac-item');
+      var cur   = list.querySelector('.ac-active');
+      var idx   = cur ? Array.from(items).indexOf(cur) : -1;
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (cur) cur.classList.remove('ac-active');
+        items[Math.min(idx+1, items.length-1)].classList.add('ac-active');
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (cur) cur.classList.remove('ac-active');
+        if (idx > 0) items[idx-1].classList.add('ac-active');
+      } else if (e.key === 'Enter' && cur) {
+        e.preventDefault();
+        inp.value = cur.querySelector('.ac-name').textContent;
+        closeAll();
+      } else if (e.key === 'Escape') {
+        closeAll();
+      }
+    });
+  }
+
+  attachAC('pickup-input');
+  attachAC('drop-input');
+})();
+</script>
 </body>
 </html>
