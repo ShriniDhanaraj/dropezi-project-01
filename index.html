@@ -295,8 +295,8 @@ html[lang="ta"] .wa-tip-hero{font-size:.73rem;}
     <img id="nav-logo" src="logo.webp" alt="DROPeZi – One-Way Drop Taxi" onerror="this.src='logo.jpg'" />
   </div>
   <div class="lang-switcher" role="group" aria-label="Language selector">
-    <button class="lang-btn active" data-lang="ta" onclick="setLang('ta')">தமிழ்</button>
-    <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" data-lang="ta" onclick="setLang('ta')">தமிழ்</button>
+    <button class="lang-btn active" data-lang="en" onclick="setLang('en')">EN</button>
     <button class="lang-btn" data-lang="hi" onclick="setLang('hi')">हिंदी</button>
     <button class="lang-btn" data-lang="kn" onclick="setLang('kn')">ಕನ್ನಡ</button>
     <button class="lang-btn" data-lang="ml" onclick="setLang('ml')">മലയ്</button>
@@ -624,7 +624,7 @@ html[lang="ta"] .wa-tip-hero{font-size:.73rem;}
 
 <script>
 const CARE = "919361287432";
-let lang = 'ta';
+let lang = 'en';
 let tripType = 'oneway';
 let vehicleType = 'sedan';
 let interactionMode = 'human';
@@ -1359,7 +1359,7 @@ document.getElementById('success-overlay').addEventListener('click', function(e)
 });
 
 /* ══ INIT: Tamil default + date/time defaults ══ */
-setLang('ta');
+setLang('en');
 (function initDateTime() {
   const now = new Date();
   const pad = n => String(n).padStart(2, '0');
@@ -1381,5 +1381,33 @@ setLang('ta');
   document.getElementById('travel-time-m').value = pad(finalMin);
 })();
 </script>
+
+<!-- ══ SPLASH SCREEN ══ -->
+<div id="splash-screen" style="position:fixed;inset:0;z-index:9999;background:#0a1628;display:flex;align-items:center;justify-content:center;transition:opacity .6s ease">
+  <video id="splash-video" src="DROPeZi-Draft03.mp4" autoplay muted playsinline style="max-width:100%;max-height:100%;object-fit:contain"></video>
+</div>
+<script>
+(function(){
+  if (sessionStorage.getItem('dropezi_splash')) {
+    var s = document.getElementById('splash-screen');
+    s.style.display = 'none';
+    return;
+  }
+  var splash = document.getElementById('splash-screen');
+  var video  = document.getElementById('splash-video');
+  function dismiss() {
+    sessionStorage.setItem('dropezi_splash','1');
+    splash.style.opacity = '0';
+    splash.style.pointerEvents = 'none';
+    setTimeout(function(){ splash.style.display = 'none'; }, 650);
+  }
+  video.addEventListener('ended', dismiss);
+  // Fallback: dismiss after 4s if video doesn't fire ended
+  setTimeout(dismiss, 4000);
+  // Also allow tap/click to skip
+  splash.addEventListener('click', dismiss);
+})();
+</script>
+
 </body>
 </html>
