@@ -6,7 +6,11 @@
       ".firebaserc",
       "*.md",
       ".git/**",
-      "node_modules/**"
+      "node_modules/**",
+      "index.html",
+      "index-redesign.html",
+      "project03-live-backup-pre-faq-chatbot.html",
+      "DROPeZi-Business-Strategy/**"
     ],
     "headers": [
       {
@@ -31,7 +35,8 @@
       }
     ],
     "rewrites": [
-      { "source": "**", "destination": "/index.html" }
+      { "source": "/nri", "destination": "/nri-prototype.html" },
+      { "source": "**", "destination": "/project03-live.html" }
     ],
     "cleanUrls": true,
     "trailingSlash": false
